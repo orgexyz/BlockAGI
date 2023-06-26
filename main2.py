@@ -19,8 +19,8 @@ def on_startup():
 
 
 def main(
-    host: str = typer.Option('localhost', envvar='HOST'),
-    port: int = typer.Option(8888, envvar='PORT'),
+    host: str = typer.Option('localhost', envvar='WEB_HOST'),
+    port: int = typer.Option(8888, envvar='WEB_PORT'),
 ):
     app.state.host = host
     app.state.port = port
