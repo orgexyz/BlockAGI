@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "blockagi"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+langchain = "^0.0.215"
+duckduckgo-search = "^3.8.3"
+playwright = "^1.35.0"
+readability-lxml = "^0.8.1"
+html2text = "^2020.1.16"
+url-normalize = "^1.4.3"
+fastapi = "^0.98.0"
+openai = "^0.27.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
