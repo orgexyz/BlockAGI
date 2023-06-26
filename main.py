@@ -9,7 +9,9 @@ from block_agi.resource_pool import ResourcePool
 from langchain.chat_models import ChatOpenAI
 from langchain.callbacks.base import BaseCallbackHandler
 
+
 class CallbackHandler(BlockAGICallbackHandler):
+
     def on_step_start(self, step: str, inputs: Dict[str, Any], **kwargs: Any) -> Any:
         """Run on step start."""
         print("="*50)
@@ -21,10 +23,12 @@ class CallbackHandler(BlockAGICallbackHandler):
         pass
         # print(to_json_str(outputs))
 
+
 class LLMCallback(BaseCallbackHandler):
     def on_llm_new_token(self, token: str, **kwargs: Any) -> Any:
         """Run on new LLM token. Only available when streaming is enabled."""
         print(token, end="", flush=True)
+
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo-16k")
@@ -41,7 +45,7 @@ if __name__ == "__main__":
     llm = ChatOpenAI(
         temperature=0,
         streaming=True,
-        model=OPENAI_MODEL, 
+        model=OPENAI_MODEL,
         openai_api_key=OPENAI_API_KEY,
         callbacks=[LLMCallback()]
     )
@@ -64,7 +68,7 @@ if __name__ == "__main__":
         "findings": Findings(
             narrative="Nothing",
             remark="",
-            intermediate_objectives=[], 
+            intermediate_objectives=[],
         )
     }
 
@@ -79,4 +83,3 @@ if __name__ == "__main__":
     outputs = chain(
         inputs=inputs,
     )
-    
