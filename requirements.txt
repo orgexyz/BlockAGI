@@ -1,0 +1,6 @@
+langchain==0.0.200
+duckduckgo-search==3.8.2
+playwright==1.35.0
+readability-lxml==0.8.1
+html2text==2020.1.16
+url-normalize==1.4.3
