@@ -19,3 +19,7 @@ cp .env.example .env
 
 poetry run python main.py
 ```
+
+## License
+
+BlockAGI is open-source software licensed under the Apache License 2.0. This license allows use, modification, and distribution of the software. For complete details, please see the [LICENSE](LICENSE) and [NOTICE](NOTICE) files in this repository.
