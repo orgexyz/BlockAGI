@@ -11,8 +11,10 @@ from block_agi.chains.research import ResearchChain
 from block_agi.chains.narrate import NarrateChain
 from block_agi.chains.evaluate import EvaluateChain
 
+
 class BlockAGIChain(CustomCallbackChain):
     agent_role: str = None
+    iteration_count: int
     chains: List[CustomCallbackChain] = []
     llm: BaseChatModel
     resource_pool: BaseResourcePool
@@ -48,17 +50,17 @@ class BlockAGIChain(CustomCallbackChain):
             NarrateChain(**kwargs),
             EvaluateChain(**kwargs),
         ]
-    
+
     def _call(
-        self, 
+        self,
         inputs: Dict[str, Any],
     ) -> Dict[str, Any]:
         # Run in multiple iterations
-        while True:
+        for _ in range(self.iteration_count):
             outputs = None
             # Call the callback
             self.fire_callback(
-                event='on_iteration_start', 
+                event='on_iteration_start',
                 inputs=inputs
             )
             # Run through all the chains
@@ -80,14 +82,14 @@ class BlockAGIChain(CustomCallbackChain):
                 )
                 # Update the inputs for the next step
                 inputs = outputs
-            
+
             # Call the callback
             self.fire_callback(
-                event='on_iteration_end', 
+                event='on_iteration_end',
                 outputs=outputs
             )
             # Set the inputs for the next iteration
-            inputs={
+            inputs = {
                 'objectives': outputs['updated_objectives'],
                 'findings': outputs['updated_findings']
             }

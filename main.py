@@ -76,6 +76,7 @@ def on_startup():
             objectives=app.state.blockagi_state.objectives,
             blockagi_callback=BlockAGICallback(app.state.blockagi_state),
             llm_callback=LLMCallback(app.state.blockagi_state),
+            iteration_count=app.state.iteration_count,
         )
     ).start()
     webbrowser.open(f'http://{app.state.host}:{app.state.port}')
@@ -144,6 +145,7 @@ def main(
     host: str = typer.Option(envvar='WEB_HOST'),
     port: int = typer.Option(envvar='WEB_PORT'),
     agent_role: str = typer.Option(envvar='BLOCKAGI_AGENT_ROLE'),
+    iteration_count: int = typer.Option(envvar='BLOCKAGI_ITERATION_COUNT'),
     objectives: list[str] = typer.Option(None, '--objectives', '-o'),
     openai_api_key: str = typer.Option(envvar='OPENAI_API_KEY'),
     openai_model: str = typer.Option(envvar='OPENAI_MODEL'),
@@ -160,6 +162,7 @@ def main(
 
     app.state.openai_api_key = openai_api_key
     app.state.openai_model = openai_model
+    app.state.iteration_count = iteration_count
     app.state.blockagi_state = BlockAGIState(
         agent_role=agent_role,
         status=Status(step='PlanChain', round=0),

@@ -12,6 +12,7 @@ def run_blockagi(
     objectives,
     blockagi_callback,
     llm_callback,
+    iteration_count,
 ):
     tools = [
         DDGSearchAnswerTool(),
@@ -33,6 +34,7 @@ def run_blockagi(
     }
 
     BlockAGIChain(
+        iteration_count=iteration_count,
         agent_role=agent_role,
         llm=llm,
         tools=tools,
