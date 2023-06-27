@@ -6,6 +6,7 @@ authors = [
     "Paul Nattapatsiri <paul@blockpipe.io>",
     "Sorawit Suriyakarn <swit@blockpipe.io>",
 ]
+license = "Apache-2.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
