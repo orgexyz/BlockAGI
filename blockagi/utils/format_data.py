@@ -1,7 +1,7 @@
 import json
 import dataclasses
 from typing import Any, List
-from block_agi.schema import Objective, Resource
+from blockagi.schema import Objective, Resource
 
 
 def format_objectives(objectives: List[Objective]) -> str:

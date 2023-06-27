@@ -12,10 +12,10 @@ from langchain.callbacks.base import BaseCallbackHandler
 from starlette.responses import FileResponse
 
 
-from block_agi.chains.base import BlockAGICallbackHandler
-from block_agi.schema import Objective, Findings, Narrative, Resource
-from block_agi.resource_pool import ResourcePool
-from block_agi.run import run_blockagi
+from blockagi.chains.base import BlockAGICallbackHandler
+from blockagi.schema import Objective, Findings, Narrative, Resource
+from blockagi.resource_pool import ResourcePool
+from blockagi.run import run_blockagi
 
 
 app = FastAPI()

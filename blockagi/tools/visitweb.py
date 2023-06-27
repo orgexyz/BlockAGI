@@ -2,7 +2,7 @@ from playwright.sync_api import sync_playwright
 from pydantic import BaseModel, Field
 from readability import Document
 from html2text import HTML2Text
-from block_agi.schema import BaseResourcePool
+from blockagi.schema import BaseResourcePool
 
 
 def extract_data(url: str) -> str:

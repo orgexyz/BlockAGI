@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 from langchain.tools.base import BaseTool
 import json
 
-from block_agi.schema import BaseResourcePool
+from blockagi.schema import BaseResourcePool
 from duckduckgo_search import DDGS
 
 # Search Answer Tool =================================

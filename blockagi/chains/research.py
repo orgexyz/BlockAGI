@@ -1,9 +1,9 @@
 from typing import List, Dict, Any
 from dataclasses import asdict
-from block_agi.chains.base import CustomCallbackChain
+from blockagi.chains.base import CustomCallbackChain
 from langchain.tools.base import BaseTool
 
-from block_agi.schema import ResearchTask, ResearchResult
+from blockagi.schema import ResearchTask, ResearchResult
 
 
 class ResearchChain(CustomCallbackChain):

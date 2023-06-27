@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
 from url_normalize import url_normalize
-from block_agi.schema import Resource, BaseResourcePool
+from blockagi.schema import Resource, BaseResourcePool
 
 
 @dataclass

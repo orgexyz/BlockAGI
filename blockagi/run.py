@@ -1,6 +1,6 @@
-from block_agi.chains import BlockAGIChain
-from block_agi.schema import Findings
-from block_agi.tools import DDGSearchAnswerTool, DDGSearchLinksTool, VisitWebTool
+from blockagi.chains import BlockAGIChain
+from blockagi.schema import Findings
+from blockagi.tools import DDGSearchAnswerTool, DDGSearchLinksTool, VisitWebTool
 from langchain.chat_models import ChatOpenAI
 
 

@@ -4,12 +4,12 @@ from langchain.chat_models.base import BaseChatModel
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.tools.base import BaseTool
 
-from block_agi.schema import BaseResourcePool
-from block_agi.chains.base import CustomCallbackChain
-from block_agi.chains.plan import PlanChain
-from block_agi.chains.research import ResearchChain
-from block_agi.chains.narrate import NarrateChain
-from block_agi.chains.evaluate import EvaluateChain
+from blockagi.schema import BaseResourcePool
+from blockagi.chains.base import CustomCallbackChain
+from blockagi.chains.plan import PlanChain
+from blockagi.chains.research import ResearchChain
+from blockagi.chains.narrate import NarrateChain
+from blockagi.chains.evaluate import EvaluateChain
 
 
 class BlockAGIChain(CustomCallbackChain):

@@ -3,15 +3,15 @@ from typing import List, Dict, Any
 from langchain.chat_models.base import BaseChatModel
 from langchain.tools.base import BaseTool
 from langchain.schema import HumanMessage, SystemMessage
-from block_agi.chains.base import CustomCallbackChain
-from block_agi.utils import (
+from blockagi.chains.base import CustomCallbackChain
+from blockagi.utils import (
     to_json_str,
     format_tools,
     format_objectives,
     format_resources,
 )
 
-from block_agi.schema import BaseResourcePool, Objective, Findings, ResearchTask
+from blockagi.schema import BaseResourcePool, Objective, Findings, ResearchTask
 
 
 class PlanChain(CustomCallbackChain):
