@@ -2,6 +2,7 @@ from typing import List, Optional
 from url_normalize import url_normalize
 from block_agi.schema import Resource, BaseResourcePool
 
+
 class ResourcePool(BaseResourcePool):
     resources: List[Resource] = []
 
@@ -13,15 +14,16 @@ class ResourcePool(BaseResourcePool):
         else:
             return resources[0]
 
-    def add(self, url: str, description: Optional[str] = None, visited: Optional[bool] = False) -> None:
+    def add(
+        self,
+        url: str,
+        description: Optional[str] = None,
+        visited: Optional[bool] = False,
+    ) -> None:
         if self.find(url) is not None:
             return
         self.resources.append(
-            Resource(
-                url=url_normalize(url),
-                description=description,
-                visited=visited
-            )
+            Resource(url=url_normalize(url), description=description, visited=visited)
         )
 
     def visit(self, url: str) -> None:

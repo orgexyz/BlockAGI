@@ -19,12 +19,14 @@ from block_agi.run import run_blockagi
 
 
 app = FastAPI()
-app.mount('/dist', StaticFiles(directory='dist'), name='dist')
+app.mount("/dist", StaticFiles(directory="dist"), name="dist")
 
 
-@app.get('/',)
+@app.get(
+    "/",
+)
 def get_index():
-    return FileResponse('dist/index.html')
+    return FileResponse("dist/index.html")
 
 
 @dataclass
@@ -57,13 +59,13 @@ class BlockAGIState:
     narratives: list[Narrative]
 
 
-@app.get('/api/state')
+@app.get("/api/state")
 def get_api_state():
     app.state.blockagi_state.resources = app.state.resource_pool.resources
     return app.state.blockagi_state
 
 
-@app.on_event('startup')
+@app.on_event("startup")
 def on_startup():
     app.state.resource_pool = ResourcePool()
     threading.Thread(
@@ -77,12 +79,12 @@ def on_startup():
             blockagi_callback=BlockAGICallback(app.state.blockagi_state),
             llm_callback=LLMCallback(app.state.blockagi_state),
             iteration_count=app.state.iteration_count,
-        )
+        ),
     ).start()
-    webbrowser.open(f'http://{app.state.host}:{app.state.port}')
+    webbrowser.open(f"http://{app.state.host}:{app.state.port}")
 
 
-@app.on_event('shutdown')
+@app.on_event("shutdown")
 def on_shutdown():
     os._exit(0)
 
@@ -95,34 +97,38 @@ class BlockAGICallback(BlockAGICallbackHandler):
 
     def on_step_start(self, step, inputs, **kwargs):
         round = self.state.status.round
-        if step == 'PlanChain':
+        if step == "PlanChain":
             round += 1
         self.state.status = Status(step=step, round=round)
         value = None
-        if step == 'PlanChain':
+        if step == "PlanChain":
             value = f'R#{round}: Planning for {len(inputs["objectives"])} objectives'
-        elif step == 'ResearchChain':
-            value = f'R#{round}: Executing {len(inputs["research_tasks"])} research tasks'
-        elif step == 'NarrateChain':
+        elif step == "ResearchChain":
+            value = (
+                f'R#{round}: Executing {len(inputs["research_tasks"])} research tasks'
+            )
+        elif step == "NarrateChain":
             value = f'R#{round}: Applying {len(inputs["research_results"])} results to the narrative'
-        elif step == 'EvaluateChain':
-            value = f'R#{round}: Evaluation for new objectives'
+        elif step == "EvaluateChain":
+            value = f"R#{round}: Evaluation for new objectives"
         if value:
-            self.state.historical_steps.append(StepHistory(
-                timestamp=datetime.utcnow().isoformat(),
-                value=value,
-            ))
+            self.state.historical_steps.append(
+                StepHistory(
+                    timestamp=datetime.utcnow().isoformat(),
+                    value=value,
+                )
+            )
 
     def on_step_end(self, step, inputs, outputs, **kwargs):
-        if step == 'PlanChain':
+        if step == "PlanChain":
             pass
-        elif step == 'ResearchChain':
+        elif step == "ResearchChain":
             pass
-        elif step == 'NarrateChain':
-            self.state.narratives.append(outputs['narrative'])
-        elif step == 'EvaluateChain':
-            self.state.objectives = outputs['updated_objectives']
-            self.state.findings = outputs['updated_findings']
+        elif step == "NarrateChain":
+            self.state.narratives.append(outputs["narrative"])
+        elif step == "EvaluateChain":
+            self.state.objectives = outputs["updated_objectives"]
+            self.state.findings = outputs["updated_findings"]
 
 
 class LLMCallback(BaseCallbackHandler):
@@ -132,43 +138,44 @@ class LLMCallback(BaseCallbackHandler):
         self.state = blockagi_state
 
     def on_llm_start(self, serialized, prompts, **kwargs):
-        self.state.llm_logs.append(LLMLog(
-            prompt=''.join(prompts),
-            response='',
-        ))
+        self.state.llm_logs.append(
+            LLMLog(
+                prompt="".join(prompts),
+                response="",
+            )
+        )
 
     def on_llm_new_token(self, token: str, **kwargs):
         self.state.llm_logs[-1].response += token
 
 
 def main(
-    host: str = typer.Option(envvar='WEB_HOST'),
-    port: int = typer.Option(envvar='WEB_PORT'),
-    agent_role: str = typer.Option(envvar='BLOCKAGI_AGENT_ROLE'),
-    iteration_count: int = typer.Option(envvar='BLOCKAGI_ITERATION_COUNT'),
-    objectives: list[str] = typer.Option(None, '--objectives', '-o'),
-    openai_api_key: str = typer.Option(envvar='OPENAI_API_KEY'),
-    openai_model: str = typer.Option(envvar='OPENAI_MODEL'),
+    host: str = typer.Option(envvar="WEB_HOST"),
+    port: int = typer.Option(envvar="WEB_PORT"),
+    agent_role: str = typer.Option(envvar="BLOCKAGI_AGENT_ROLE"),
+    iteration_count: int = typer.Option(envvar="BLOCKAGI_ITERATION_COUNT"),
+    objectives: list[str] = typer.Option(None, "--objectives", "-o"),
+    openai_api_key: str = typer.Option(envvar="OPENAI_API_KEY"),
+    openai_model: str = typer.Option(envvar="OPENAI_MODEL"),
 ):
     app.state.host = host
     app.state.port = port
     if not objectives:
-        for objective in os.getenv('BLOCKAGI_OBJECTIVES', '').split(','):
+        for objective in os.getenv("BLOCKAGI_OBJECTIVES", "").split(","):
             objective = objective.strip()
             if objective:
                 objectives.append(objective)
     if not objectives:
-        raise ValueError('No objectives specified')
+        raise ValueError("No objectives specified")
 
     app.state.openai_api_key = openai_api_key
     app.state.openai_model = openai_model
     app.state.iteration_count = iteration_count
     app.state.blockagi_state = BlockAGIState(
         agent_role=agent_role,
-        status=Status(step='PlanChain', round=0),
+        status=Status(step="PlanChain", round=0),
         historical_steps=[],
-        objectives=[Objective(topic=topic, expertise=0.)
-                    for topic in objectives],
+        objectives=[Objective(topic=topic, expertise=0.0) for topic in objectives],
         findings=[],
         resources=[],
         llm_logs=[],
@@ -177,6 +184,6 @@ def main(
     uvicorn.run(app, host=host, port=port)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     dotenv.load_dotenv()
     typer.run(main)

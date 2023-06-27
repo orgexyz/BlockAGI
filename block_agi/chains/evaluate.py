@@ -8,53 +8,54 @@ from block_agi.utils import to_json_str, format_objectives
 
 from block_agi.schema import Objective, Findings, Narrative
 
+
 class EvaluateChain(CustomCallbackChain):
     llm: BaseChatModel
     tools: List[BaseTool]
-    
+
     @property
     def input_keys(self) -> List[str]:
         return [
-            'objectives',       # Primary input
-            'findings',         # Previous findings
-            'narrative',        # Narrate    -> Evaluate
+            "objectives",  # Primary input
+            "findings",  # Previous findings
+            "narrative",  # Narrate    -> Evaluate
         ]
 
     @property
     def output_keys(self) -> List[str]:
         return [
             # Feedback to next iteration
-            'updated_findings',             # Evaluate   -> Plan
-            'updated_objectives'            # Evaluate   -> Plan
+            "updated_findings",  # Evaluate   -> Plan
+            "updated_objectives",  # Evaluate   -> Plan
         ]
-    
+
     def _call(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
-        objectives: List[Objective] = inputs['objectives']
-        findings: Findings = inputs['findings']
-        narrative: Narrative = inputs['narrative']
+        objectives: List[Objective] = inputs["objectives"]
+        findings: Findings = inputs["findings"]
+        narrative: Narrative = inputs["narrative"]
 
         response_format = {
-            'updated_findings': {
-                'intermediate_objectives': [
+            "updated_findings": {
+                "intermediate_objectives": [
                     Objective(
-                        topic='additional objective that helps achieve the key objectives',
-                        expertise='a new float value in [0, 1] range indicating the expertise of this objective',
+                        topic="additional objective that helps achieve the key objectives",
+                        expertise="a new float value in [0, 1] range indicating the expertise of this objective",
                     )
                 ],
-                'remark': 'a note to the next iteration of BlockAGI to help it improve',
+                "remark": "a note to the next iteration of BlockAGI to help it improve",
             },
-            'updated_objectives': [
+            "updated_objectives": [
                 Objective(
-                    topic='same as the key objectives',
-                    expertise='a new float value in [0, 1] range indicating the expertise of this objective',
+                    topic="same as the key objectives",
+                    expertise="a new float value in [0, 1] range indicating the expertise of this objective",
                 ),
-                '... include all objectives'
-            ]
+                "... include all objectives",
+            ],
         }
 
         messages = [
-            SystemMessage(content=
-                "You are BlockAGI, a Crypto Research Assistant. "
+            SystemMessage(
+                content="You are BlockAGI, a Crypto Research Assistant. "
                 "Your job is to become an expert in the topics under the OBJECTIVES section, "
                 "each with a weight (0 to 1) which indicates your current expertise in that topic."
                 "\n\n"
@@ -72,8 +73,8 @@ class EvaluateChain(CustomCallbackChain):
                 "## RESPONSE FORMAT:\n"
                 f"{to_json_str(response_format)}"
             ),
-            HumanMessage(content=
-                "You just finished a research iteration and formulated a narrative with the following instruction.\n"
+            HumanMessage(
+                content="You just finished a research iteration and formulated a narrative with the following instruction.\n"
                 "- The goal is to have a complete narrative that fulfills the KEY OBJECTIVES.\n"
                 "- Take into account the INTERMEDIATE OBJECTIVES and REMARK when editing the narrative.\n"
                 "- The narrative should be a markdown document with up to 10 sections, each with up to 500 words.\n"
@@ -104,21 +105,24 @@ class EvaluateChain(CustomCallbackChain):
         updated_findings = Findings(
             intermediate_objectives=[
                 Objective(
-                    topic=obj['topic'],
-                    expertise=obj['expertise'],
-                ) for obj in result['updated_findings']['intermediate_objectives']
+                    topic=obj["topic"],
+                    expertise=obj["expertise"],
+                )
+                for obj in result["updated_findings"]["intermediate_objectives"]
             ],
-            remark=result['updated_findings']['remark'],
+            remark=result["updated_findings"]["remark"],
             narrative=narrative.markdown,
         )
-        
+
         updated_objectives = [
             Objective(
-                topic=obj['topic'],
-                expertise=obj['expertise'],
+                topic=obj["topic"],
+                expertise=obj["expertise"],
             )
-            for obj in result['updated_objectives']
+            for obj in result["updated_objectives"]
         ]
-        
-        return { 'updated_findings': updated_findings, 'updated_objectives': updated_objectives }
-    
+
+        return {
+            "updated_findings": updated_findings,
+            "updated_objectives": updated_objectives,
+        }

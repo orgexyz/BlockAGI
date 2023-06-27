@@ -17,7 +17,7 @@ def run_blockagi(
     tools = [
         DDGSearchAnswerTool(),
         DDGSearchLinksTool(resource_pool),
-        VisitWebTool(resource_pool)
+        VisitWebTool(resource_pool),
     ]
 
     llm = ChatOpenAI(
@@ -25,12 +25,14 @@ def run_blockagi(
         streaming=True,
         model=openai_model,
         openai_api_key=openai_api_key,
-        callbacks=[llm_callback]
+        callbacks=[llm_callback],
     )  # type: ignore
 
     inputs = {
-        'objectives': objectives,
-        'findings': Findings(narrative='Nothing', remark='', intermediate_objectives=[])
+        "objectives": objectives,
+        "findings": Findings(
+            narrative="Nothing", remark="", intermediate_objectives=[]
+        ),
     }
 
     BlockAGIChain(
@@ -39,5 +41,5 @@ def run_blockagi(
         llm=llm,
         tools=tools,
         resource_pool=resource_pool,
-        callbacks=[blockagi_callback]
+        callbacks=[blockagi_callback],
     )(inputs=inputs)

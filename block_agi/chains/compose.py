@@ -24,22 +24,21 @@ class BlockAGIChain(CustomCallbackChain):
     @property
     def input_keys(self) -> List[str]:
         return [
-            'objectives',       # Primary input
-            'findings',         # Previous findings
+            "objectives",  # Primary input
+            "findings",  # Previous findings
         ]
 
     @property
     def output_keys(self) -> List[str]:
         return [
             # Primary outputs
-            'research_tasks',               # Plan       -> Research
-            'research_results',             # Research   -> Understand
-            'research_understandings',      # Understand -> Narrate
-            'narrative',                    # Narrate    -> Evaluate
-
+            "research_tasks",  # Plan       -> Research
+            "research_results",  # Research   -> Understand
+            "research_understandings",  # Understand -> Narrate
+            "narrative",  # Narrate    -> Evaluate
             # Feedback to next iteration
-            'updated_findings',             # Evaluate   -> Plan
-            'updated_objectives'            # Evaluate   -> Plan
+            "updated_findings",  # Evaluate   -> Plan
+            "updated_objectives",  # Evaluate   -> Plan
         ]
 
     def __init__(self, **kwargs: Any):
@@ -59,37 +58,29 @@ class BlockAGIChain(CustomCallbackChain):
         for _ in range(self.iteration_count):
             outputs = None
             # Call the callback
-            self.fire_callback(
-                event='on_iteration_start',
-                inputs=inputs
-            )
+            self.fire_callback(event="on_iteration_start", inputs=inputs)
             # Run through all the chains
             for chain in self.chains:
                 # Call the callback
                 self.fire_callback(
-                    event='on_step_start',
-                    step=chain.__class__.__name__,
-                    inputs=inputs
+                    event="on_step_start", step=chain.__class__.__name__, inputs=inputs
                 )
                 # Call the current step
                 outputs = chain(inputs=inputs)
                 # Call the callback
                 self.fire_callback(
-                    event='on_step_end',
+                    event="on_step_end",
                     step=chain.__class__.__name__,
                     inputs=inputs,
-                    outputs=outputs
+                    outputs=outputs,
                 )
                 # Update the inputs for the next step
                 inputs = outputs
 
             # Call the callback
-            self.fire_callback(
-                event='on_iteration_end',
-                outputs=outputs
-            )
+            self.fire_callback(event="on_iteration_end", outputs=outputs)
             # Set the inputs for the next iteration
             inputs = {
-                'objectives': outputs['updated_objectives'],
-                'findings': outputs['updated_findings']
+                "objectives": outputs["updated_objectives"],
+                "findings": outputs["updated_findings"],
             }

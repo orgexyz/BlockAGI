@@ -29,12 +29,12 @@ class ResearchResult(ResearchTask):
 
 
 @dataclass
-class Narrative():
+class Narrative:
     markdown: str
 
 
 @dataclass
-class Findings():
+class Findings:
     narrative: str
     remark: str
     intermediate_objectives: List[Objective]
@@ -42,10 +42,13 @@ class Findings():
 
 class BaseResourcePool(ABC):
     @abstractmethod
-    def add(self, url: str, description: Optional[str] = None) -> None: pass
+    def add(self, url: str, description: Optional[str] = None) -> None:
+        pass
 
     @abstractmethod
-    def visit(self, url: str) -> None: pass
+    def visit(self, url: str) -> None:
+        pass
 
     @abstractmethod
-    def get_all(self) -> List[Resource]: pass
+    def get_all(self) -> List[Resource]:
+        pass

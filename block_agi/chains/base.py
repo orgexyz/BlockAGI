@@ -2,6 +2,7 @@ from typing import Dict, Any
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chains.base import Chain
 
+
 # HACK: LangChain doesn't support custom handlers yet, so we have to use this workaround
 # TODO: Change to use on_chain_start and on_chain_end and follow LandChain's conventions
 class BlockAGICallbackHandler(BaseCallbackHandler):
@@ -11,7 +12,9 @@ class BlockAGICallbackHandler(BaseCallbackHandler):
         pass
 
     # New big cycle's PRIME step ends
-    def on_step_end(self, step: str, inputs: Dict[str, Any], outputs: Dict[str, Any]) -> Any:
+    def on_step_end(
+        self, step: str, inputs: Dict[str, Any], outputs: Dict[str, Any]
+    ) -> Any:
         """Run on step end."""
         pass
 
@@ -24,6 +27,7 @@ class BlockAGICallbackHandler(BaseCallbackHandler):
     def on_iteration_end(self, outputs: Dict[str, Any]) -> Any:
         """Run on step end."""
         pass
+
 
 # Base class that supports custom handlers
 class CustomCallbackChain(Chain):

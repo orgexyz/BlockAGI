@@ -4,6 +4,7 @@ from readability import Document
 from html2text import HTML2Text
 from block_agi.schema import BaseResourcePool
 
+
 def extract_data(url: str) -> str:
     try:
         with sync_playwright() as playwright:
@@ -36,17 +37,19 @@ from langchain.tools import Tool
 
 # Visit Web Tool =================================
 
+
 class VisitWebSchema(BaseModel):
     url: str = Field(title="URL", description="A url of website.")
+
 
 def VisitWebTool(resource_pool: BaseResourcePool):
     def func(url: str) -> str:
         resource_pool.visit(url)
         return extract_data(url)
-    
+
     return Tool.from_function(
         name="VisitWeb",
         func=func,
         description="Useful for when you need to visit a KNOWN website listed under RELEVANT LINKS and extract information from it.",
-        args_schema=VisitWebSchema
+        args_schema=VisitWebSchema,
     )

@@ -7,6 +7,7 @@ from block_agi.utils import to_json_str, format_objectives
 
 from block_agi.schema import Objective, Findings, ResearchResult, Narrative
 
+
 class NarrateChain(CustomCallbackChain):
     llm: BaseChatModel
     tools: List[BaseTool]
@@ -14,22 +15,22 @@ class NarrateChain(CustomCallbackChain):
     @property
     def input_keys(self) -> List[str]:
         return [
-            'objectives',       # Primary input
-            'findings',         # Previous findings
-            'research_results'  # Research -> Narrate
+            "objectives",  # Primary input
+            "findings",  # Previous findings
+            "research_results",  # Research -> Narrate
         ]
 
     @property
     def output_keys(self) -> List[str]:
         return [
-            'narrative',        # Narrate -> Evaluate
+            "narrative",  # Narrate -> Evaluate
         ]
-    
+
     def _call(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
         # As research results can be large, we chunk them into smaller pieces
         # Max size of each chunk is 20,000 characters, approximately
-        findings: Findings = inputs['findings']
-        research_results: List[ResearchResult] = inputs['research_results']
+        findings: Findings = inputs["findings"]
+        research_results: List[ResearchResult] = inputs["research_results"]
 
         chunks = []
         current_chunk = []
@@ -49,34 +50,35 @@ class NarrateChain(CustomCallbackChain):
             else:
                 current_chunk.append(research_result)
                 current_size += research_result_size
-            
+
         if len(current_chunk) > 0:
             chunks.append(current_chunk)
 
-        
         # Call each chunk and pass the narrative to the next chunk
         current_narrative = findings.narrative
         for chunk in chunks:
-            current_narrative = self._call_chunk({
-                **inputs,
-                'research_results': chunk,
-                'findings': Findings(
-                    intermediate_objectives=findings.intermediate_objectives,
-                    remark=findings.remark,
-                    narrative=current_narrative
-                )
-            })
-        
-        return { 'narrative': Narrative(markdown=current_narrative) }
+            current_narrative = self._call_chunk(
+                {
+                    **inputs,
+                    "research_results": chunk,
+                    "findings": Findings(
+                        intermediate_objectives=findings.intermediate_objectives,
+                        remark=findings.remark,
+                        narrative=current_narrative,
+                    ),
+                }
+            )
+
+        return {"narrative": Narrative(markdown=current_narrative)}
 
     def _call_chunk(self, inputs: Dict[str, Any]) -> Dict[str, Any]:
-        objectives: List[Objective] = inputs['objectives']
-        findings: Findings = inputs['findings']
-        research_results: List[ResearchResult] = inputs['research_results']
+        objectives: List[Objective] = inputs["objectives"]
+        findings: Findings = inputs["findings"]
+        research_results: List[ResearchResult] = inputs["research_results"]
 
         messages = [
-            SystemMessage(content=
-                "You are BlockAGI, a Crypto Research Assistant. "
+            SystemMessage(
+                content="You are BlockAGI, a Crypto Research Assistant. "
                 "Your job is to become an expert in the topics under the OBJECTIVES section, "
                 "each with a weight (0 to 1) which indicates your current expertise in that topic."
                 "\n\n"
@@ -98,8 +100,8 @@ class NarrateChain(CustomCallbackChain):
                 "## RESPONSE FORMAT:\n"
                 "- Markdown document with up to 10 sections, each with up to 500 words.\n"
             ),
-            HumanMessage(content=
-                "You just finished a research iteration. Here are the raw results:\n\n"
+            HumanMessage(
+                content="You just finished a research iteration. Here are the raw results:\n\n"
                 "## RESEARCH RESULTS:\n"
                 f"{to_json_str(research_results)}"
                 "\n\n"

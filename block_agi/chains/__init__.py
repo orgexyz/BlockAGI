@@ -5,11 +5,12 @@ from block_agi.chains.evaluate import EvaluateChain
 from block_agi.chains.compose import BlockAGIChain
 from block_agi.chains.base import BlockAGICallbackHandler
 
+
 __all__ = [
     "PlanChain",
     "ResearchChain",
     "NarrateChain",
     "EvaluateChain",
     "BlockAGIChain",
-    "BlockAGICallbackHandler"
+    "BlockAGICallbackHandler",
 ]
