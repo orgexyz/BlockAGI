@@ -1,10 +1,12 @@
+from dataclasses import dataclass, field
 from typing import List, Optional
 from url_normalize import url_normalize
 from block_agi.schema import Resource, BaseResourcePool
 
 
+@dataclass
 class ResourcePool(BaseResourcePool):
-    resources: List[Resource] = []
+    resources: List[Resource] = field(default_factory=list)
 
     def find(self, url: str) -> Optional[Resource]:
         url = url_normalize(url)

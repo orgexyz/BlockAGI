@@ -54,14 +54,14 @@ class BlockAGIState:
     historical_steps: list[StepHistory]
     objectives: list[Objective]
     findings: list[Findings]
-    resources: list[Resource]
+    resource_pool: ResourcePool
     llm_logs: list[LLMLog]
     narratives: list[Narrative]
 
 
 @app.get("/api/state")
 def get_api_state():
-    app.state.blockagi_state.resources = app.state.resource_pool.resources
+    app.state.blockagi_state.resource_pool = app.state.resource_pool
     return app.state.blockagi_state
 
 
@@ -177,7 +177,7 @@ def main(
         historical_steps=[],
         objectives=[Objective(topic=topic, expertise=0.0) for topic in objectives],
         findings=[],
-        resources=[],
+        resource_pool=ResourcePool(),
         llm_logs=[],
         narratives=[],
     )
