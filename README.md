@@ -4,10 +4,20 @@ BlockAGI is an open-source research agent built with Python3, utilizing the capa
 
 ## Installation
 
-```sh
-poetry install
-poetry run playwright install
-```
+To get started with BlockAGI, please follow these steps:
+1. Install [Poetry](https://python-poetry.org/), a dependency management tool for Python.
+2. Clone the BlockAGI repository to your local machine.
+3. Navigate to the project directory and run the following command to install the required dependencies:
+
+   ```bash
+   poetry install
+   ```
+
+4. Next, install the [Playwright](https://github.com/microsoft/playwright) dependencies by running the following command:
+
+   ```bash
+   poetry run playwright install
+   ```
 
 ## Running
 
