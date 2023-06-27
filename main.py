@@ -49,6 +49,7 @@ class LLMLog:
 
 @dataclass
 class BlockAGIState:
+    start_time: str
     agent_role: str
     status: Status
     historical_steps: list[StepHistory]
@@ -172,6 +173,7 @@ def main(
     app.state.openai_model = openai_model
     app.state.iteration_count = iteration_count
     app.state.blockagi_state = BlockAGIState(
+        start_time=datetime.utcnow().isoformat(),
         agent_role=agent_role,
         status=Status(step="PlanChain", round=0),
         historical_steps=[],
