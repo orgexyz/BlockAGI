@@ -2,7 +2,10 @@
 name = "blockagi"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = [
+    "Paul Nattapatsiri <paul@blockpipe.io>",
+    "Sorawit Suriyakarn <swit@blockpipe.io>",
+]
 readme = "README.md"
 
 [tool.poetry.dependencies]
