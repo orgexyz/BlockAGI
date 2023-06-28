@@ -39,6 +39,7 @@ class StepHistory:
 @dataclass
 class AgentLog:
     timestamp: str
+    round: int
     message: str
 
 
@@ -72,7 +73,8 @@ class BlockAGIState:
         self.agent_logs.append(
             AgentLog(
                 timestamp=datetime.utcnow().isoformat(),
-                message=f"R#{self.status.round}: {message}",
+                round=self.status.round,
+                message=message,
             )
         )
 
