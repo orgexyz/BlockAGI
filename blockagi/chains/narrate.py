@@ -54,9 +54,13 @@ class NarrateChain(CustomCallbackChain):
         if len(current_chunk) > 0:
             chunks.append(current_chunk)
 
+        self.fire_log(
+            f"Applying {len(research_results)} results splitting into {len(chunks)} chunks"
+        )
         # Call each chunk and pass the narrative to the next chunk
         current_narrative = findings.narrative
-        for chunk in chunks:
+        for index, chunk in enumerate(chunks):
+            self.fire_log(f"  Narating chunk {index+1}/{len(chunks)}")
             current_narrative = self._call_chunk(
                 {
                     **inputs,

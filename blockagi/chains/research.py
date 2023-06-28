@@ -1,3 +1,4 @@
+import json
 from typing import List, Dict, Any
 from dataclasses import asdict
 from blockagi.chains.base import CustomCallbackChain
@@ -22,8 +23,11 @@ class ResearchChain(CustomCallbackChain):
 
         research_results = []
 
+        self.fire_log(f"Executing {len(research_tasks)} research tasks")
+
         # Use the tools to run the research tasks
-        for task in research_tasks:
+        for index, task in enumerate(research_tasks):
+            self.fire_log(f"  Task {index+1}) {task.tool} {json.dumps(task.args)}")
             tool = [t for t in self.tools if t.name == task.tool][0]
             if tool is None:
                 continue

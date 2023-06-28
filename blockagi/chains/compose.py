@@ -55,7 +55,8 @@ class BlockAGIChain(CustomCallbackChain):
         inputs: Dict[str, Any],
     ) -> Dict[str, Any]:
         # Run in multiple iterations
-        for _ in range(self.iteration_count):
+        for step_count in range(self.iteration_count):
+            self.fire_log(f"Beginning round {step_count+1}/{self.iteration_count}")
             outputs = None
             # Call the callback
             self.fire_callback(event="on_iteration_start", inputs=inputs)

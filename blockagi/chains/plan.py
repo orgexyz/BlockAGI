@@ -35,6 +35,11 @@ class PlanChain(CustomCallbackChain):
         objectives: List[Objective] = inputs["objectives"]
         findings: Findings = inputs["findings"]
 
+        self.fire_log(
+            f"Planning to fulfill {len(inputs['objectives'])} objectives\n"
+            + "\n".join([f"  - {o.topic}" for o in inputs["objectives"]])
+        )
+
         response_format = [
             ResearchTask(
                 tool="ToolName",

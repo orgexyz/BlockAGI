@@ -4,7 +4,7 @@ import typer
 import uvicorn
 import webbrowser
 import threading
-from typing import Optional
+from typing import Any, Dict, Optional
 from datetime import datetime
 from dataclasses import dataclass
 from fastapi import FastAPI
@@ -37,6 +37,12 @@ class StepHistory:
 
 
 @dataclass
+class AgentLog:
+    timestamp: str
+    message: str
+
+
+@dataclass
 class Status:
     step: str
     round: int
@@ -54,12 +60,21 @@ class BlockAGIState:
     end_time: Optional[str]
     agent_role: str
     status: Status
+    agent_logs: list[AgentLog]
     historical_steps: list[StepHistory]
     objectives: list[Objective]
     findings: list[Findings]
     resource_pool: ResourcePool
     llm_logs: list[LLMLog]
     narratives: list[Narrative]
+
+    def add_agent_log(self, message: str):
+        self.agent_logs.append(
+            AgentLog(
+                timestamp=datetime.utcnow().isoformat(),
+                message=f"R#{self.status.round}: {message}",
+            )
+        )
 
 
 @app.get("/api/state")
@@ -103,29 +118,14 @@ class BlockAGICallback(BlockAGICallbackHandler):
     def __init__(self, blockagi_state):
         self.state = blockagi_state
 
+    def on_iteration_start(self, inputs: Dict[str, Any]) -> Any:
+        self.state.status.round += 1
+
+    def on_log_message(self, message: str) -> Any:
+        self.state.add_agent_log(message)
+
     def on_step_start(self, step, inputs, **kwargs):
-        round = self.state.status.round
-        if step == "PlanChain":
-            round += 1
-        self.state.status = Status(step=step, round=round)
-        value = None
-        if step == "PlanChain":
-            value = f'R#{round}: Planning for {len(inputs["objectives"])} objectives'
-        elif step == "ResearchChain":
-            value = (
-                f'R#{round}: Executing {len(inputs["research_tasks"])} research tasks'
-            )
-        elif step == "NarrateChain":
-            value = f'R#{round}: Applying {len(inputs["research_results"])} results to the narrative'
-        elif step == "EvaluateChain":
-            value = f"R#{round}: Evaluation for new objectives"
-        if value:
-            self.state.historical_steps.append(
-                StepHistory(
-                    timestamp=datetime.utcnow().isoformat(),
-                    value=value,
-                )
-            )
+        self.state.status.step = step
 
     def on_step_end(self, step, inputs, outputs, **kwargs):
         if step == "PlanChain":
@@ -185,6 +185,9 @@ def main(
         agent_role=agent_role,
         status=Status(step="PlanChain", round=0),
         historical_steps=[],
+        agent_logs=[
+            AgentLog(datetime.utcnow().isoformat(), f"R#1: You are {agent_role}")
+        ],
         objectives=[Objective(topic=topic, expertise=0.0) for topic in objectives],
         findings=[],
         resource_pool=ResourcePool(),

@@ -28,6 +28,10 @@ class BlockAGICallbackHandler(BaseCallbackHandler):
         """Run on step end."""
         pass
 
+    def on_log_message(self, message: str) -> Any:
+        """Run whenever there is a new log message."""
+        pass
+
 
 # Base class that supports custom handlers
 class CustomCallbackChain(Chain):
@@ -36,3 +40,8 @@ class CustomCallbackChain(Chain):
         for callback in self.callbacks:
             if getattr(callback, event):
                 getattr(callback, event)(**kwargs)
+
+    def fire_log(self, message: str):
+        for callback in self.callbacks:
+            if hasattr(callback, "on_log_message"):
+                getattr(callback, "on_log_message")(message)

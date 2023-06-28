@@ -34,6 +34,7 @@ class EvaluateChain(CustomCallbackChain):
         findings: Findings = inputs["findings"]
         narrative: Narrative = inputs["narrative"]
 
+        self.fire_log("Evaluating the narrative for the next iteration")
         response_format = {
             "updated_findings": {
                 "intermediate_objectives": [
@@ -114,6 +115,7 @@ class EvaluateChain(CustomCallbackChain):
             narrative=narrative.markdown,
         )
 
+        self.fire_log(f'Agent\'s remark: "{updated_findings.remark}"')
         updated_objectives = [
             Objective(
                 topic=obj["topic"],
