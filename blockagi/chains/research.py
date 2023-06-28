@@ -27,7 +27,7 @@ class ResearchChain(CustomCallbackChain):
 
         # Use the tools to run the research tasks
         for index, task in enumerate(research_tasks):
-            self.fire_log(f"  Task {index+1}) {task.tool} {json.dumps(task.args)}")
+            self.fire_log(f"Task {index+1}) {task.tool} {json.dumps(task.args)}")
             tool = [t for t in self.tools if t.name == task.tool][0]
             if tool is None:
                 continue
