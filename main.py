@@ -188,7 +188,7 @@ def main(
         status=Status(step="PlanChain", round=0),
         historical_steps=[],
         agent_logs=[
-            AgentLog(datetime.utcnow().isoformat(), 1, f"You are {agent_role}")
+            AgentLog(datetime.utcnow().isoformat(), 0, f"You are {agent_role}")
         ],
         objectives=[Objective(topic=topic, expertise=0.0) for topic in objectives],
         findings=[],
