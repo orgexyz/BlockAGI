@@ -4,6 +4,7 @@ import typer
 import uvicorn
 import webbrowser
 import threading
+from typing import Optional
 from datetime import datetime
 from dataclasses import dataclass
 from fastapi import FastAPI
@@ -50,6 +51,7 @@ class LLMLog:
 @dataclass
 class BlockAGIState:
     start_time: str
+    end_time: Optional[str]
     agent_role: str
     status: Status
     historical_steps: list[StepHistory]
@@ -69,8 +71,13 @@ def get_api_state():
 @app.on_event("startup")
 def on_startup():
     app.state.resource_pool = ResourcePool()
+
+    def target(**kwargs):
+        run_blockagi(**kwargs)
+        app.state.blockagi_state.end_time = datetime.utcnow().isoformat()
+
     threading.Thread(
-        target=run_blockagi,
+        target=target,
         kwargs=dict(
             agent_role=app.state.blockagi_state.agent_role,
             openai_api_key=app.state.openai_api_key,
@@ -174,6 +181,7 @@ def main(
     app.state.iteration_count = iteration_count
     app.state.blockagi_state = BlockAGIState(
         start_time=datetime.utcnow().isoformat(),
+        end_time=None,
         agent_role=agent_role,
         status=Status(step="PlanChain", round=0),
         historical_steps=[],

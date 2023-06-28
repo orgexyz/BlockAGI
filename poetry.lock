@@ -145,6 +145,7 @@ files = [
 ]
 
 [package.dependencies]
+exceptiongroup = {version = "*", markers = "python_version < \"3.11\""}
 idna = ">=2.8"
 sniffio = ">=1.1"
 
@@ -222,6 +223,8 @@ mypy-extensions = ">=0.4.3"
 packaging = ">=22.0"
 pathspec = ">=0.9.0"
 platformdirs = ">=2"
+tomli = {version = ">=1.1.0", markers = "python_version < \"3.11\""}
+typing-extensions = {version = ">=3.10.0.0", markers = "python_version < \"3.10\""}
 
 [package.extras]
 colorama = ["colorama (>=0.4.3)"]
@@ -617,6 +620,20 @@ httpx = {version = ">=0.24.1", extras = ["brotli", "http2", "socks"]}
 lxml = ">=4.9.2"
 
 [[package]]
+name = "exceptiongroup"
+version = "1.1.1"
+description = "Backport of PEP 654 (exception groups)"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "exceptiongroup-1.1.1-py3-none-any.whl", hash = "sha256:232c37c63e4f682982c8b6459f33a8981039e5fb8756b2074364e5055c498c9e"},
+    {file = "exceptiongroup-1.1.1.tar.gz", hash = "sha256:d484c3090ba2889ae2928419117447a14daf3c1231d5e30d0aae34f354f01785"},
+]
+
+[package.extras]
+test = ["pytest (>=6)"]
+
+[[package]]
 name = "fastapi"
 version = "0.98.0"
 description = "FastAPI framework, high performance, easy to learn, fast to code, ready for production"
@@ -921,6 +938,7 @@ files = [
 
 [package.dependencies]
 aiohttp = ">=3.8.3,<4.0.0"
+async-timeout = {version = ">=4.0.0,<5.0.0", markers = "python_version < \"3.11\""}
 dataclasses-json = ">=0.5.7,<0.6.0"
 langchainplus-sdk = ">=0.0.17"
 numexpr = ">=2.8.4,<3.0.0"
@@ -1665,6 +1683,7 @@ files = [
 
 [package.dependencies]
 anyio = ">=3.4.0,<5"
+typing-extensions = {version = ">=3.10.0", markers = "python_version < \"3.10\""}
 
 [package.extras]
 full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart", "pyyaml"]
@@ -1682,6 +1701,17 @@ files = [
 
 [package.extras]
 doc = ["reno", "sphinx", "tornado (>=4.5)"]
+
+[[package]]
+name = "tomli"
+version = "2.0.1"
+description = "A lil' TOML parser"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
+    {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
 
 [[package]]
 name = "tqdm"
@@ -1888,5 +1918,5 @@ multidict = ">=4.0"
 
 [metadata]
 lock-version = "2.0"
-python-versions = "^3.11"
-content-hash = "cee5827e13b8c04750db75c25d1055297636652fd64b9b21135ae0411cc217de"
+python-versions = "3.9.16"
+content-hash = "3b8fba1a6b17bc71479cea5c8f19057d376f4db103f85c6429ac2e06b12cf480"

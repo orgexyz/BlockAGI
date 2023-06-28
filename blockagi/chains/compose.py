@@ -31,14 +31,14 @@ class BlockAGIChain(CustomCallbackChain):
     @property
     def output_keys(self) -> List[str]:
         return [
-            # Primary outputs
-            "research_tasks",  # Plan       -> Research
-            "research_results",  # Research   -> Understand
-            "research_understandings",  # Understand -> Narrate
-            "narrative",  # Narrate    -> Evaluate
-            # Feedback to next iteration
-            "updated_findings",  # Evaluate   -> Plan
-            "updated_objectives",  # Evaluate   -> Plan
+            # # Primary outputs
+            # "research_tasks",  # Plan       -> Research
+            # "research_results",  # Research   -> Understand
+            # "research_understandings",  # Understand -> Narrate
+            # "narrative",  # Narrate    -> Evaluate
+            # # Feedback to next iteration
+            # "updated_findings",  # Evaluate   -> Plan
+            # "updated_objectives",  # Evaluate   -> Plan
         ]
 
     def __init__(self, **kwargs: Any):
@@ -84,3 +84,4 @@ class BlockAGIChain(CustomCallbackChain):
                 "objectives": outputs["updated_objectives"],
                 "findings": outputs["updated_findings"],
             }
+        return {}
