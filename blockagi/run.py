@@ -20,6 +20,13 @@ def run_blockagi(
         VisitWebTool(resource_pool),
     ]
 
+    blockagi_callback.on_log_message(
+        f"Using {len(tools)} tools:\n"
+        + "\n".join(
+            [f"{idx}. {t.name} - {t.description}" for idx, t in enumerate(tools)]
+        )
+    )
+
     llm = ChatOpenAI(
         temperature=0,
         streaming=True,
