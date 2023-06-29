@@ -85,4 +85,6 @@ class BlockAGIChain(CustomCallbackChain):
                 "objectives": outputs["updated_objectives"],
                 "findings": outputs["updated_findings"],
             }
+
+        self.fire_log(f"Agent finished running ({self.iteration_count} rounds)")
         return {}
