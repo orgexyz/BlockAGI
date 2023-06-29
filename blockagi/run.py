@@ -23,7 +23,7 @@ def run_blockagi(
     blockagi_callback.on_log_message(
         f"Using {len(tools)} tools:\n"
         + "\n".join(
-            [f"{idx}. {t.name} - {t.description}" for idx, t in enumerate(tools)]
+            [f"{idx+1}. {t.name} - {t.description}" for idx, t in enumerate(tools)]
         )
     )
 

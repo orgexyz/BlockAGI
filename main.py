@@ -171,10 +171,10 @@ def main(
     app.state.host = host
     app.state.port = port
     if not objectives:
-        for objective in os.getenv("BLOCKAGI_OBJECTIVES", "").split(","):
-            objective = objective.strip()
-            if objective:
-                objectives.append(objective)
+        for index in range(1, 11):
+            key = f"BLOCKAGI_OBJECTIVE_{index}"
+            if objective := os.getenv(key):
+                objectives.append(objective.strip())
     if not objectives:
         raise ValueError("No objectives specified")
 
