@@ -39,4 +39,5 @@ class ResearchChain(CustomCallbackChain):
                 )
             )
 
+        self.fire_log("Updating resource pool ...")
         return {"research_results": research_results}
