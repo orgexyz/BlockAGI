@@ -92,7 +92,10 @@ def on_startup():
     app.state.resource_pool = ResourcePool()
 
     def target(**kwargs):
-        run_blockagi(**kwargs)
+        try:
+            run_blockagi(**kwargs)
+        except Exception as e:
+            app.state.blockagi_state.add_agent_log(f"Error: {e}")
         app.state.blockagi_state.end_time = datetime.utcnow().isoformat()
 
     threading.Thread(
