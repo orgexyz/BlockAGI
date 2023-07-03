@@ -6,17 +6,17 @@
 
 ## 🎯 Features
 
-- **100% Hackable**: The code is based on LangChain and comes with a WebUI that's basically just one `tsx` file.
-- **Versatile**: BlockAGI can help write professional research pieces using live online or user-proprietary information, search and gather information using tools provided on its own, produce and refine the research piece using new materials found without human supervision, and evaluate itself, generating additional intermediate research topics to fulfill the user's research objectives.
-- **Inspired by the Best**: BlockAGI leans on multiple predecessors like BabyAGI and AutoGPT to create a self-improving agent with a specific goal of producing human-readable research pieces with the proper citations.
+- **💯 100% Hackable**: The code is based on LangChain and comes with a WebUI that's basically just one [`tsx`](/ui/app/page.tsx) file.
+- **🛠️ Versatile**: BlockAGI can help write professional research pieces using live online or user-proprietary information, search and gather information using tools provided on its own, produce and refine the research piece using new materials found without human supervision, and evaluate itself, generating additional intermediate research topics to fulfill the user's research objectives.
+- **🚀 Inspired by the Best**: BlockAGI leans on multiple predecessors like [BabyAGI](https://github.com/yoheinakajima/babyagi) and [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT) to create a self-improving agent with a specific goal of producing human-readable research pieces with the proper citations.
 
 ## 💡 Differences from AutoGPT
 
-- **Efficiency**: BlockAGI has been tested to work well with `gpt-3.5-turbo-16k`, which is substantially cheaper than `gpt-4` on most research tasks.
-- **Interactive Web UI**: BlockAGI features a Web UI that displays the agent's decision-making process, execution progress, and the latest research results. This allows for a more interactive and user-friendly experience.
-- **Focused Functionality**: BlockAGI is designed with a single goal in mind - to assist users in their research topics. It's not about doing everything, but doing one thing really well.
-- **Simplified Setup**: BlockAGI does not require file reading/writing, so there's no need for Docker/sandboxing. This makes the setup process simpler and more straightforward.
-- **No External Datastore**: BlockAGI does not require an external vector datastore to work, reducing the complexity and resource requirements.
+- **⚡ Efficiency**: BlockAGI has been tested to work well with `gpt-3.5-turbo-16k`, which is substantially cheaper than `gpt-4` on most research tasks.
+- **🖥️ Interactive Web UI**: BlockAGI features a Web UI that displays the agent's decision-making process, execution progress, and the latest research results. This allows for a more interactive and user-friendly experience.
+- **🎯 Focused Functionality**: BlockAGI is designed with a single goal in mind - to assist users in their research topics. It's not about doing everything, but doing one thing really well.
+- **🔧 Simplified Setup**: BlockAGI does not require file reading/writing, so there's no need for Docker/sandboxing. This makes the setup process simpler and more straightforward.
+- **📦 No External Datastore**: BlockAGI does not require an external vector datastore to work, reducing the complexity and resource requirements.
 
 ## 🛠️ Tech Stack
 
@@ -26,6 +26,12 @@
 ## 🤝 Sponsor and Contributors
 
 We currently don't take any monetary donations! However, every issue filed and PR are extremely important to us. Here is the roster of contributors and supporter of the project.
+
+<a href="https://blockpipe.io"><img width="200" alt="blockpipe" src="https://github.com/blockpipe/BlockAGI/assets/891585/b1a9b753-5282-4697-a5de-446c78686f08"></a>
+
+<br />
+
+<a href="https://github.com/smiled0g"><img src="https://avatars.githubusercontent.com/smiled0g?v=4" width="50px" alt="smiled0g" /></a>&nbsp;&nbsp;<a href="https://github.com/sorawit"><img src="https://avatars.githubusercontent.com/sorawit?v=4" width="50px" alt="sorawit" /></a>&nbsp;&nbsp;
 
 ## 📚 Documentation
 
