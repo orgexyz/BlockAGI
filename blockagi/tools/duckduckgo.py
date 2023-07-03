@@ -18,10 +18,17 @@ class SearchAnswerSchema(BaseModel):
 
 
 def DDGSearchAnswerTool():
+    def searchAnswerDDG(query: str):
+        result = DuckDuckGoSearchRun().run(query)
+        return {
+            "citation": f"DuckDuckGo Search Answer: {query}",
+            "result": result
+        }
+
     return Tool.from_function(
-        name="SearchAnswer",
-        func=DuckDuckGoSearchRun().run,
-        description="Useful for when you need an answer to a QUESTION on current event over the internet.",
+        name="DuckDuckGoSearchAnswer",
+        func=searchAnswerDDG,
+        description="Useful for when you need an answer to a QUESTION on current event over the internet using DuckDuckGo.",
         args_schema=SearchAnswerSchema,
     )
 
@@ -39,8 +46,8 @@ class SearchLinksSchema(BaseModel):
 
 
 class DDGSearchLinksTool(BaseTool):
-    name = "SearchLinks"
-    description = "Useful for when you need more links to website that points to information about a TOPIC over the internet."
+    name = "DuckDuckGoSearchLinks"
+    description = "Useful for when you need more links to website that points to information about a TOPIC over the internet using DuckDuckGo."
     args_schema: Type[SearchLinksSchema] = SearchLinksSchema
     resource_pool: BaseResourcePool = None
 
@@ -52,8 +59,11 @@ class DDGSearchLinksTool(BaseTool):
         ddg = DDGS()
         results = list(islice(ddg.text(query), limit))
         for result in results:
-            self.resource_pool.add(url=result["href"], description=result["title"])
-        return json.dumps(results, indent=2)
+            self.resource_pool.add(url=result["href"], description=result["title"], content=None)
+        return {
+            "citation": f"DuckDuckGo Search Links: {query}",
+            "result": json.dumps(results, indent=2)
+        }
 
     def _arun(self, query: str, limit: int = 20):
         raise NotImplementedError("custom_search does not support async")

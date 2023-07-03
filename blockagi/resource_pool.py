@@ -21,17 +21,19 @@ class ResourcePool(BaseResourcePool):
         url: str,
         description: Optional[str] = None,
         visited: Optional[bool] = False,
+        content: Optional[str] = None,
     ) -> None:
         if self.find(url) is not None:
             return
         self.resources.append(
-            Resource(url=url_normalize(url), description=description, visited=visited)
+            Resource(url=url_normalize(url), description=description, visited=visited, content=content)
         )
 
-    def visit(self, url: str) -> None:
+    def visit(self, url: str, content:str = "") -> None:
         resource = self.find(url)
         if resource is not None:
             resource.visited = True
+            resource.content = content
 
     def get_all(self) -> List[Resource]:
         return self.resources

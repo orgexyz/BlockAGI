@@ -41,8 +41,15 @@ class VisitWebSchema(BaseModel):
 
 def VisitWebTool(resource_pool: BaseResourcePool):
     def func(url: str) -> str:
-        resource_pool.visit(url)
-        return extract_data(url)
+        resource = resource_pool.find(url)
+        if resource is None:
+            raise ValueError(f"URL {url} not found in RESOURCE POOL.")
+        content = extract_data(url)
+        resource_pool.visit(url, content)
+        return {
+            "citation": f"[{resource.description}]({url})",
+            "result": content
+        }
 
     return Tool.from_function(
         name="VisitWeb",

@@ -69,7 +69,7 @@ const Collapsible = forwardRef<HTMLDivElement, CollapsibleProps>(
 );
 
 function ObjectivesTab() {
-  const { objectives, intermediate_objectives } = useContext(DataContext);
+  const { objectives, generated_objectives } = useContext(DataContext);
 
   const expertise =
     objectives.reduce((acc, objective) => acc + objective.expertise, 0) /
@@ -82,7 +82,7 @@ function ObjectivesTab() {
         <div className="flex items-center">
           Objectives
           <span className="inline-block ml-4 px-2 leading-6 rounded bg-fg-1 text-ac-1 font-code font-semibold text-[12px]">
-            {intermediate_objectives.length} intermediate
+            {generated_objectives.length} intermediate
           </span>
         </div>
       }
@@ -106,9 +106,9 @@ function ObjectivesTab() {
           </div>
         ))}
         <div className="mt-6 mb-4 text-ft-2 font-semibold">
-          📟 Auto-Generated Intermediate Objectives
+          📟 Auto-Generated Objectives
         </div>
-        {intermediate_objectives.map(({ topic, expertise }) => (
+        {generated_objectives.map(({ topic, expertise }) => (
           <div key={`${topic}_${expertise}`} className="my-2 flex">
             <div className="block h-fit text-center w-[50px] px-2 leading-6 rounded bg-fg-3 text-ac-3 font-code font-semibold text-[12px]">
               {(expertise * 100).toFixed(1)}%
@@ -462,13 +462,6 @@ function Operation() {
   );
 }
 
-function stripCodeBlock(markdown: string) {
-  // Strip out the code blocks
-  const regex = /```*[\n]*(.*?)[\n]*```*/gs;
-  const match = regex.exec(markdown);
-  return match ? match[1].trim() : markdown.trim();
-}
-
 type NarrativeMarkdownProps = {
   children: string;
 };
@@ -501,6 +494,12 @@ const NarrativeMarkdown = memo(function _NarrativeMarkdown({
             className="list-decimal list-outside marker:bg-ac-1  pl-8 marker:font-code marker:font-bold marker:text-[15px]"
           />
         ),
+        blockquote: ({ node, ...props }) => (
+          <blockquote
+            {...props}
+            className="border-l-4 border-bd-1 pl-4 font-code text-[12px] text-ft-2 mb-8 transition-all hover:border-ac-1 hover:text-ft-1"
+          />
+        ),
         li: ({ node, ...props }) => <li {...props} className="" />,
         p: ({ node, ...props }) => <p {...props} className="mt-2 mb-4" />,
         a: ({ node, ...props }) => (
@@ -518,7 +517,7 @@ const NarrativeMarkdown = memo(function _NarrativeMarkdown({
         ),
       }}
     >
-      {stripCodeBlock(children)}
+      {children}
     </ReactMarkdown>
   );
 });

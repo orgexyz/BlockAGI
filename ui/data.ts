@@ -16,7 +16,7 @@ export type BlockAGIDataType = {
   is_live: boolean;
   is_done: boolean;
   objectives: Objective[];
-  intermediate_objectives: Objective[];
+  generated_objectives: Objective[];
   findings: Findings;
   narratives: Narrative[];
   agent_logs: AgentLog[];
@@ -31,9 +31,9 @@ export const initialData: BlockAGIDataType = {
   start_time: new Date(),
   end_time: new Date(),
   objectives: [],
-  intermediate_objectives: [],
+  generated_objectives: [],
   findings: {
-    intermediate_objectives: [],
+    generated_objectives: [],
     narrative: "",
     remark: "",
   },
@@ -46,6 +46,13 @@ export const initialData: BlockAGIDataType = {
 
 export const DataContext = createContext<BlockAGIDataType>(initialData);
 
+function stripCodeBlock(markdown: string) {
+  // Strip out the code blocks
+  const regex = /```*[\n]*(.*?)[\n]*```*/gs;
+  const match = regex.exec(markdown);
+  return match ? match[1].trim() : markdown.trim();
+}
+
 export const fetchData = async (): Promise<BlockAGIDataType | null> => {
   try {
     const response = await fetch("http://localhost:8888/api/state");
@@ -57,9 +64,13 @@ export const fetchData = async (): Promise<BlockAGIDataType | null> => {
       start_time: new Date(data.start_time + "Z"),
       end_time: data.end_time ? new Date(data.end_time + "Z") : null,
       objectives: data.objectives || [],
-      intermediate_objectives: data.findings.intermediate_objectives || [],
+      generated_objectives: data.findings.generated_objectives || [],
       findings: data.findings,
-      narratives: data.narratives || [],
+      // Some narratives have code blocks, which we want to strip out
+      narratives:
+        data.narratives?.map?.(({ markdown }) => ({
+          markdown: stripCodeBlock(markdown),
+        })) || [],
       agent_logs: data.agent_logs.map((log, idx) => ({
         ...log,
         timestamp: new Date(log.timestamp + "Z"),

@@ -5,6 +5,9 @@ from blockagi.schema import Objective, Resource
 
 
 def format_objectives(objectives: List[Objective]) -> str:
+    if len(objectives) == 0:
+        return "- None"
+    
     return "\n".join(
         [
             f"{i+1}. {o.topic} (expertise: {o.expertise})"
@@ -14,6 +17,9 @@ def format_objectives(objectives: List[Objective]) -> str:
 
 
 def format_resources(resources: List[Resource]) -> str:
+    if len(resources) == 0:
+        return "- No resources available"
+    
     return "\n".join(
         [f"- {r.url} ({r.description})" for r in resources]
     )

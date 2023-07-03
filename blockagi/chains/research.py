@@ -31,13 +31,17 @@ class ResearchChain(CustomCallbackChain):
             tool = [t for t in self.tools if t.name == task.tool][0]
             if tool is None:
                 continue
-            task_result = tool.run(task.args)
-            research_results.append(
-                ResearchResult(
-                    result=task_result,
-                    **asdict(task),
+            try:
+                task_result = tool.run(task.args)
+                research_results.append(
+                    ResearchResult(
+                        result=task_result.get('result', None),
+                        citation=task_result.get('citation', None),
+                        **asdict(task),
+                    )
                 )
-            )
+            except Exception as e:
+                print(e)
 
         self.fire_log("Updating resource pool ...")
         return {"research_results": research_results}

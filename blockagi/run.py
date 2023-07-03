@@ -40,7 +40,7 @@ def run_blockagi(
         "findings": Findings(
             narrative="Nothing",
             remark="",
-            intermediate_objectives=[]
+            generated_objectives=[]
         ),
     }
 

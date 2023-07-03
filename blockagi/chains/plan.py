@@ -46,20 +46,20 @@ class PlanChain(CustomCallbackLLMChain):
                 args="tool arguments",
                 reasoning="why you choose this tool",
             ),
-            "... more tools",
+            "... use up to 3 tools",
         ]
 
         messages = [
             SystemMessage(
                 content=f"You are {self.agent_role}. "
                 "Your job is to create a plan to utilize tools to become expert in the primary goals "
-                "under OBJECTIVES and the secondary goals under INTERMEDIATE_OBJECTIVES. "
+                "under OBJECTIVES and the secondary goals under GENERATED_OBJECTIVES. "
                 "Take into account the limitation of all the tools available to you."
                 "\n\n"
-                "## KEY OBJECTIVES:\n"
+                "## USER OBJECTIVES:\n"
                 f"{format_objectives(objectives)}\n\n"
-                "## INTERMEDIATE OBJECTIVES:\n"
-                f"{format_objectives(findings.intermediate_objectives)}\n\n"
+                "## GENERATED OBJECTIVES:\n"
+                f"{format_objectives(findings.generated_objectives)}\n\n"
                 "## REMARK:\n"
                 f"{findings.remark}\n\n"
                 "You should ONLY respond in the JSON format as described below\n"
@@ -77,10 +77,17 @@ class PlanChain(CustomCallbackLLMChain):
                 f"{format_tools(self.tools)}"
                 "\n\n"
                 "# YOUR TASK:\n"
-                "Consider PREVIOUS FINDINGS and derive a plan to use up to 5 tools to become expert. "
+                "Consider PREVIOUS FINDINGS and derive a plan to use up to 3 tools to become expert. "
                 "Only use tools and links specified above. Do NOT use tools to visit unknown links.\n"
                 "Prioritize visiting links under RESOURCE POOL over searching the internet "
                 "unless the existing resources are not enough to answer your research questions.\n"
+                "\n"
+                "Important notes:\n"
+                "- Prioritize finding more about topics with low expertise.\n"
+                "- When your expertise is low, consider finding more resource and gather generic information.\n"
+                "- When your expertise is high, consider visiting specific resources over finding generic answer.\n"
+                "- When \"No resources available\", do not visit any link.\n"
+                "\n"
                 "Respond using ONLY the format specified above:"
             ),
         ]

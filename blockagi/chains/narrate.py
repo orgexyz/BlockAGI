@@ -66,7 +66,7 @@ class NarrateChain(CustomCallbackLLMChain):
                     **inputs,
                     "research_results": chunk,
                     "findings": Findings(
-                        intermediate_objectives=findings.intermediate_objectives,
+                        generated_objectives=findings.generated_objectives,
                         remark=findings.remark,
                         narrative=current_narrative,
                     ),
@@ -84,12 +84,12 @@ class NarrateChain(CustomCallbackLLMChain):
             SystemMessage(
                 content=f"You are {self.agent_role}. "
                 "Your job is to write a comprehensive report to fulfill the primary goals "
-                "under OBJECTIVES and the secondary goals under INTERMEDIATE_OBJECTIVES."
+                "under OBJECTIVES and the secondary goals under GENERATED_OBJECTIVES."
                 "\n\n"
-                "## KEY OBJECTIVES:\n"
+                "## USER OBJECTIVES:\n"
                 f"{format_objectives(objectives)}\n\n"
-                "## INTERMEDIATE OBJECTIVES:\n"
-                f"{format_objectives(findings.intermediate_objectives)}\n\n"
+                "## GENERATED OBJECTIVES:\n"
+                f"{format_objectives(findings.generated_objectives)}\n\n"
                 "## REMARK:\n"
                 f"{findings.remark}\n\n"
                 "## PREVIOUS FINDINGS:\n"
@@ -99,6 +99,7 @@ class NarrateChain(CustomCallbackLLMChain):
                 "You should ONLY respond in the JSON format as described below\n"
                 "## RESPONSE FORMAT:\n"
                 "- Markdown document with up to 8 sections, each with up to 350 words.\n"
+                "- The content should be concise and easy to digest. Avoid repeating yourself.\n"
                 "- First section is ALWAYS about what you learned from the research results "
                 "and how you plan to rewrite the report.\n"
                 "- Start the markdown with a H1 heading with emoji (e.g. `# ⛳️ Title`).\n"
@@ -129,18 +130,19 @@ class NarrateChain(CustomCallbackLLMChain):
                 f"{to_json_str(research_results)}"
                 "\n\n"
                 "## YOUR TASK:\n"
-                "Write a different report on the OBJECTIVES that use RESEARCH RESULTS and "
-                "PREVIOUS FINDINGS as your reference. Make sure it is a new writing and not "
-                "copied from PREVIOUS FINDINGS. All facts must be supported by references. "
+                "Write a report on the USER OBJECTIVES by iterating over the PREVIOUS FINDINGS "
+                "and adding new information from RESEARCH RESULTS. Use ALL the facts and citation in the PREVIOUS FINDINGS. "
+                "All new facts must be supported by references to RESEARCH RESULTS."
                 "\n"
                 "Important notes:\n"
                 "- Always write plan first. The plan should focus on new information you received, "
                 "and what would you like to revise. Keep it concise and avoid using bullet points. Then write the report.\n"
                 "- Preserve all the footnote references. Make sure mention mention of `[^<number>]` has a link in the footnote.\n"
-                f"- Avoid mentioning how {self.agent_role} works. Focus on presenting facts from the research.\n"
+                "- Make sure the number of footnote references is greater or equal to PREVIOUS FINDINGS footnotes.\n"
+                f"- Avoid mentioning how {self.agent_role} works.\n"
                 "- Avoid mentioning tools used in the writing. If result is not helpful then exclude it.\n"
                 "- Avoid mentioning `## PREVIOUS FINDINGS` section in the markdown. Return new content only.\n"
-                "Respond using ONLY the format specified above:"
+                "Respond using ONLY the markdown format specified above:"
             ),
         ]
 

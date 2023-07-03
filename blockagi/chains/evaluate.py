@@ -37,17 +37,18 @@ class EvaluateChain(CustomCallbackLLMChain):
         self.fire_log("Evaluating the narrative for the next iteration")
         response_format = {
             "updated_findings": {
-                "intermediate_objectives": [
+                "generated_objectives": [
                     Objective(
-                        topic="additional objective that helps achieve the key objectives",
+                        topic="additional objective that helps achieve the user objectives",
                         expertise="a new float value in [0, 1] range indicating the expertise of this objective",
-                    )
+                    ),
+                    "... include all generated objectives"
                 ],
                 "remark": "a note to the next iteration of BlockAGI to help it improve",
             },
             "updated_objectives": [
                 Objective(
-                    topic="same as the key objectives",
+                    topic="same as the user objectives",
                     expertise="a new float value in [0, 1] range indicating the expertise of this objective",
                 ),
                 "... include all objectives",
@@ -58,13 +59,13 @@ class EvaluateChain(CustomCallbackLLMChain):
             SystemMessage(
                 content=f"You are {self.agent_role}. "
                 "Your job is to evaluate YOUR FINDING become expert in the primary goals "
-                "under OBJECTIVES and the secondary goals under INTERMEDIATE_OBJECTIVES. "
+                "under OBJECTIVES and the secondary goals under GENERATED_OBJECTIVES. "
                 "Take into account the limitation of all the tools available to you."
                 "\n\n"
-                "## KEY OBJECTIVES:\n"
+                "## USER OBJECTIVES:\n"
                 f"{format_objectives(objectives)}\n\n"
-                "## INTERMEDIATE OBJECTIVES:\n"
-                f"{format_objectives(findings.intermediate_objectives)}\n\n"
+                "## GENERATED OBJECTIVES:\n"
+                f"{format_objectives(findings.generated_objectives)}\n\n"
                 "## REMARK:\n"
                 f"{findings.remark}\n\n"
                 "You should ONLY respond in the JSON format as described below\n"
@@ -80,8 +81,8 @@ class EvaluateChain(CustomCallbackLLMChain):
                 "# YOUR TASK:\n"
                 "Give a thorough evaluation of your work and plan to become a better expert. "
                 "Your evaluation should include:\n"
-                "- Modified up to 1 new INTERMEDIATE OBJECTIVE to help yourself become an "
-                "expert and answer KEY OBJECTIVES with further research. Do not modify the KEY OBJECTIVES.\n"
+                "- Modified up to 1 new GENERATED OBJECTIVE to help yourself become an "
+                "expert and answer USER OBJECTIVES with further research. Do not modify the USER OBJECTIVES.\n"
                 "- A remark to help the next iteration of BlockAGI improve. Be critical and suggest "
                 "only concise and helpful feedback for the AI agent.\n"
                 "- A new expertise weight between (0 and 1) of all the OBJECTIVES. "
@@ -97,12 +98,12 @@ class EvaluateChain(CustomCallbackLLMChain):
         result = json.loads(response.content)
 
         updated_findings = Findings(
-            intermediate_objectives=[
+            generated_objectives=[
                 Objective(
                     topic=obj["topic"],
                     expertise=obj["expertise"],
                 )
-                for obj in result["updated_findings"]["intermediate_objectives"]
+                for obj in result["updated_findings"]["generated_objectives"]
             ],
             remark=result["updated_findings"]["remark"],
             narrative=narrative.markdown,

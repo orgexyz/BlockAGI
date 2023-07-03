@@ -22,7 +22,7 @@ export type Resource = {
 };
 
 export type Findings = {
-  intermediate_objectives: Objective[];
+  generated_objectives: Objective[];
   narrative: string;
   remark: string;
 };
