@@ -4,3 +4,4 @@
 __pycache__/
 *.py[cod]
 /.vscode/
+/venv

@@ -9,6 +9,7 @@ from blockagi.schema import Objective, Findings, ResearchResult, Narrative
 
 
 class NarrateChain(CustomCallbackChain):
+    agent_role: str = "a Research Assistant"
     llm: BaseChatModel
     tools: List[BaseTool]
 
@@ -82,13 +83,9 @@ class NarrateChain(CustomCallbackChain):
 
         messages = [
             SystemMessage(
-                content="You are BlockAGI, a Crypto Research Assistant. "
-                "Your job is to become an expert in the topics under the OBJECTIVES section, "
-                "each with a weight (0 to 1) which indicates your current expertise in that topic."
-                "\n\n"
-                "You will conduct research in multiple iterations, using the tools provided. "
-                "Use the topics under INTERMEDIATE OBJECTIVES and REMARK to help you determine "
-                "appropriate tools to refine PREVIOUS FINDINGS and fulfill the OBJECTIVES."
+                content=f"You are {self.agent_role}. "
+                "Your job is to write a comprehensive report to fulfill the primary goals "
+                "under OBJECTIVES and the secondary goals under INTERMEDIATE_OBJECTIVES."
                 "\n\n"
                 "## KEY OBJECTIVES:\n"
                 f"{format_objectives(objectives)}\n\n"
@@ -102,21 +99,49 @@ class NarrateChain(CustomCallbackChain):
                 "```\n\n"
                 "You should ONLY respond in the JSON format as described below\n"
                 "## RESPONSE FORMAT:\n"
-                "- Markdown document with up to 10 sections, each with up to 500 words.\n"
+                "- Markdown document with up to 8 sections, each with up to 350 words.\n"
+                "- First section is ALWAYS about what you learned from the research results "
+                "and how you plan to rewrite the report.\n"
+                "- Start the markdown with a H1 heading with emoji (e.g. `# ⛳️ Title`).\n"
+                "- Start each section with a H2 heading with emoji (e.g. `## 🤖 Section Title`).\n"
+                "- Use approritate emoji for each section's content.\n"
+                "- Use bullet points when appropriate to make the document easy to digest.\n"
+                "- Use footnote for citations (e.g. `[^1^]` for refering to link [1]).\n"
+                "- Add footnotes at the end of markdown document "
+                "(e.g `[^1^]: [<description>](<link>)` for describing link [1]). Note the colon (:) sign."
+                "\n\n"
+                "## EXAMPLE RESPONSE:\n"
+                "```\n"
+                "> Plan: based on the results, I will revise ... I will add ... I will remove ..."
+                "Finally I will add all the references at the end.\n"
+                "# 🤔 What is BlockAGI\n"
+                "## 🌈 Automated AI Agent \n"
+                "BlockAGI is an open-source research agent built with Python3, "
+                "utilizing the capabilities of LangChain and OpenAI [^1^]. ...\n"
+                "## 📚 Capabilities of BlockAGI\n"
+                "Users can interact with BlockAGI through self-hosing the software [^2^].\n\n"
+                "[^1^]: [BlockAGI Github](https://github.com/blockpipe/blockagi)\n"
+                "[^2^]: Research Result: WebSearch \"BlockAGI\"\n"
+                "```"
             ),
             HumanMessage(
                 content="You just finished a research iteration. Here are the raw results:\n\n"
                 "## RESEARCH RESULTS:\n"
                 f"{to_json_str(research_results)}"
                 "\n\n"
-                "Please edit the PREVIOUS FINDINGS by adding new info from the RESEARCH RESULTS.\n"
-                "- The goal is to have a complete narrative that fulfills the KEY OBJECTIVES.\n"
-                "- Take into account the INTERMEDIATE OBJECTIVES and REMARK when editing the narrative.\n"
-                "- The narrative should be a markdown document with up to 10 sections, each with up to 500 words.\n"
-                "- Make sure to include citations and links in your markdown document in every sentence.\n"
-                "- Do NOT mention the tools used in the narrative.\n"
-                "- Do NOT include `## PREVIOUS FINDINGS` section in the markdown. Return new content only.\n\n"
-                "Respond with the new narrative in the RESPONSE FORMAT."
+                "## YOUR TASK:\n"
+                "Write a different report on the OBJECTIVES that use RESEARCH RESULTS and "
+                "PREVIOUS FINDINGS as your reference. Make sure it is a new writing and not "
+                "copied from PREVIOUS FINDINGS. All facts must be supported by references. "
+                "\n"
+                "Important notes:\n"
+                "- Always write plan first. The plan should focus on new information you received, "
+                "and what would you like to revise. Keep it concise and avoid using bullet points. Then write the report.\n"
+                "- Preserve all the footnote references. Make sure mention mention of `[^<number>]` has a link in the footnote.\n"
+                f"- Avoid mentioning how {self.agent_role} works. Focus on presenting facts from the research.\n"
+                "- Avoid mentioning tools used in the writing. If result is not helpful then exclude it.\n"
+                "- Avoid mentioning `## PREVIOUS FINDINGS` section in the markdown. Return new content only.\n"
+                "Respond using ONLY the format specified above:"
             ),
         ]
 

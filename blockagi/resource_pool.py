@@ -35,3 +35,6 @@ class ResourcePool(BaseResourcePool):
 
     def get_all(self) -> List[Resource]:
         return self.resources
+    
+    def get_unvisited(self) -> List[Resource]:
+        return [r for r in self.resources if not r.visited]

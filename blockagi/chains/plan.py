@@ -52,12 +52,9 @@ class PlanChain(CustomCallbackChain):
         messages = [
             SystemMessage(
                 content=f"You are {self.agent_role}. "
-                "Your job is to become an expert in the topics under the OBJECTIVES section, "
-                "each with a weight (0 to 1) indicating your current expertise in that topic."
-                "\n\n"
-                "You will conduct research in multiple iterations, using the tools provided. "
-                "Use the topics under INTERMEDIATE OBJECTIVES and REMARK to help you determine "
-                "appropriate tools to refine PREVIOUS FINDINGS and fulfill the OBJECTIVES."
+                "Your job is to create a plan to utilize tools to become expert in the primary goals "
+                "under OBJECTIVES and the secondary goals under INTERMEDIATE_OBJECTIVES. "
+                "Take into account the limitation of all the tools available to you."
                 "\n\n"
                 "## KEY OBJECTIVES:\n"
                 f"{format_objectives(objectives)}\n\n"
@@ -65,8 +62,6 @@ class PlanChain(CustomCallbackChain):
                 f"{format_objectives(findings.intermediate_objectives)}\n\n"
                 "## REMARK:\n"
                 f"{findings.remark}\n\n"
-                "## RELEVANT LINKS\n"
-                f"{format_resources(self.resource_pool.get_all())}\n\n"
                 "You should ONLY respond in the JSON format as described below\n"
                 "## RESPONSE FORMAT:\n"
                 f"{to_json_str(response_format)}"
@@ -76,10 +71,17 @@ class PlanChain(CustomCallbackChain):
                 "```\n"
                 f"{findings.narrative}\n"
                 "```\n\n"
+                "## RESOURCE POOL\n"
+                f"{format_resources(self.resource_pool.get_unvisited())}\n\n"
                 "## AVAILABLE TOOLS:\n"
                 f"{format_tools(self.tools)}"
                 "\n\n"
-                "Please derive a plan to use up to 5 tools."
+                "# YOUR TASK:\n"
+                "Consider PREVIOUS FINDINGS and derive a plan to use up to 5 tools to become expert. "
+                "Only use tools and links specified above. Do NOT use tools to visit unknown links.\n"
+                "Prioritize visiting links under RESOURCE POOL over searching the internet "
+                "unless the existing resources are not enough to answer your research questions.\n"
+                "Respond using ONLY the format specified above:"
             ),
         ]
 

@@ -28,7 +28,7 @@ def run_blockagi(
     )
 
     llm = ChatOpenAI(
-        temperature=0,
+        temperature=0.8,
         streaming=True,
         model=openai_model,
         openai_api_key=openai_api_key,
@@ -38,7 +38,9 @@ def run_blockagi(
     inputs = {
         "objectives": objectives,
         "findings": Findings(
-            narrative="Nothing", remark="", intermediate_objectives=[]
+            narrative="Nothing",
+            remark="",
+            intermediate_objectives=[]
         ),
     }
 

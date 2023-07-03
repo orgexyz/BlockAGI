@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+a {
+  transition: all 150ms ease-in-out;
+  text-decoration: underline;
+  text-underline-offset: 0.4em;
+  text-decoration-color: #e2e2e2;
+  text-decoration-thickness: 0.05em;
+}
+
+a:hover {
+  color: #833FFF;
+  text-decoration-color: #bb96ff;
+}

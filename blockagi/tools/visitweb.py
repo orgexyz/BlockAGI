@@ -1,6 +1,5 @@
 from playwright.sync_api import sync_playwright
 from pydantic import BaseModel, Field
-from readability import Document
 from html2text import HTML2Text
 from blockagi.schema import BaseResourcePool
 
@@ -18,13 +17,11 @@ def extract_data(url: str) -> str:
             page_content = page.content()
             browser.close()
 
-            doc = Document(page_content)
-
+            # Convert HTML to Markdown
             h = HTML2Text()
             h.ignore_links = False
 
-            content_html = doc.summary()
-            content_markdown = h.handle(content_html)
+            content_markdown = h.handle(page_content)
 
             # Serialize everything into a JSON string
             # Limit the size of the string to 20,000 characters
@@ -39,7 +36,7 @@ from langchain.tools import Tool
 
 
 class VisitWebSchema(BaseModel):
-    url: str = Field(title="URL", description="A url of website.")
+    url: str = Field(title="URL", description="A url in RESOURCE POOL.")
 
 
 def VisitWebTool(resource_pool: BaseResourcePool):
@@ -50,6 +47,6 @@ def VisitWebTool(resource_pool: BaseResourcePool):
     return Tool.from_function(
         name="VisitWeb",
         func=func,
-        description="Useful for when you need to visit a KNOWN website listed under RELEVANT LINKS and extract information from it.",
+        description="Useful for when you need to visit a website in the RESOURCE POOL and extract information from it.",
         args_schema=VisitWebSchema,
     )

@@ -15,7 +15,7 @@ def format_objectives(objectives: List[Objective]) -> str:
 
 def format_resources(resources: List[Resource]) -> str:
     return "\n".join(
-        [f"- [{r.description}]({r.url}) (visited: {r.visited})" for r in resources]
+        [f"- {r.url} ({r.description})" for r in resources]
     )
 
 

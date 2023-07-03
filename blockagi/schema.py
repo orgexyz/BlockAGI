@@ -52,3 +52,7 @@ class BaseResourcePool(ABC):
     @abstractmethod
     def get_all(self) -> List[Resource]:
         pass
+
+    @abstractmethod
+    def get_unvisited(self) -> List[Resource]:
+        pass

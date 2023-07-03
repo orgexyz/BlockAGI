@@ -10,6 +10,7 @@ from blockagi.schema import Objective, Findings, Narrative
 
 
 class EvaluateChain(CustomCallbackChain):
+    agent_role: str = "a Research Assistant"
     llm: BaseChatModel
     tools: List[BaseTool]
 
@@ -56,13 +57,10 @@ class EvaluateChain(CustomCallbackChain):
 
         messages = [
             SystemMessage(
-                content="You are BlockAGI, a Crypto Research Assistant. "
-                "Your job is to become an expert in the topics under the OBJECTIVES section, "
-                "each with a weight (0 to 1) which indicates your current expertise in that topic."
-                "\n\n"
-                "You will conduct research in multiple iterations, using the tools provided. "
-                "Use the topics under INTERMEDIATE OBJECTIVES and REMARK to help you determine "
-                "appropriate tools to refine PREVIOUS FINDINGS and fulfill the OBJECTIVES."
+                content=f"You are {self.agent_role}. "
+                "Your job is to evaluate YOUR FINDING become expert in the primary goals "
+                "under OBJECTIVES and the secondary goals under INTERMEDIATE_OBJECTIVES. "
+                "Take into account the limitation of all the tools available to you."
                 "\n\n"
                 "## KEY OBJECTIVES:\n"
                 f"{format_objectives(objectives)}\n\n"
@@ -75,26 +73,22 @@ class EvaluateChain(CustomCallbackChain):
                 f"{to_json_str(response_format)}"
             ),
             HumanMessage(
-                content="You just finished a research iteration and formulated a narrative with the following instruction.\n"
-                "- The goal is to have a complete narrative that fulfills the KEY OBJECTIVES.\n"
-                "- Take into account the INTERMEDIATE OBJECTIVES and REMARK when editing the narrative.\n"
-                "- The narrative should be a markdown document with up to 10 sections, each with up to 500 words.\n"
-                "- Make sure to include citations and links in your markdown document in every sentence.\n"
-                "\n"
+                content="You just finished a research iteration and formulated a FINDING below.\n"
                 "## YOUR FINDINGS:\n"
                 "```\n"
                 f"{narrative.markdown}\n"
                 "```\n\n"
-                "Please give a thorough an evaluation for the insights found by BlockAGI. "
+                "# YOUR TASK:\n"
+                "Give a thorough evaluation of your work and plan to become a better expert. "
                 "Your evaluation should include:\n"
-                "- Up to 5 intermediate_objectives, which helps the next iteration of BlockAGI become "
-                "an expert in all the OBJECTIVES. Be critical and detail-focused. Take into account "
-                "the PREVIOUS FINDINGS and carry over the unfulfilled objectives as needed.\n"
+                "- Modified up to 1 new INTERMEDIATE OBJECTIVE to help yourself become an "
+                "expert and answer KEY OBJECTIVES with further research. Do not modify the KEY OBJECTIVES.\n"
                 "- A remark to help the next iteration of BlockAGI improve. Be critical and suggest "
                 "only concise and helpful feedback for the AI agent.\n"
-                "- A new weight of OBJECTIVES for the next iteration of BlockAGI. Make sure to keep the exact same topics. "
-                "For each objective, if the information is already known, its weight should be lower."
+                "- A new expertise weight between (0 and 1) of all the OBJECTIVES. "
+                "If the goal is close to being met, its expertise should be higher."
                 "\n\n"
+                "# YOUR TASK:\n"
                 "Respond using ONLY the format specified above:"
             ),
         ]

@@ -20,7 +20,6 @@ from blockagi.run import run_blockagi
 
 
 app = FastAPI()
-app.mount("/dist", StaticFiles(directory="dist"), name="dist")
 
 
 @app.get(
@@ -28,6 +27,15 @@ app.mount("/dist", StaticFiles(directory="dist"), name="dist")
 )
 def get_index():
     return FileResponse("dist/index.html")
+
+
+@app.get("/api/state")
+def get_api_state():
+    app.state.blockagi_state.resource_pool = app.state.resource_pool
+    return app.state.blockagi_state
+
+
+app.mount("/", StaticFiles(directory="dist"), name="dist")
 
 
 @dataclass
@@ -77,12 +85,6 @@ class BlockAGIState:
                 message=message,
             )
         )
-
-
-@app.get("/api/state")
-def get_api_state():
-    app.state.blockagi_state.resource_pool = app.state.resource_pool
-    return app.state.blockagi_state
 
 
 @app.on_event("startup")
