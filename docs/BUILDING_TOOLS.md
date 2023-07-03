@@ -4,6 +4,12 @@ Tools in BlockAGI follow the same standard as LangChain tools, with a slight add
 
 ## 📝 Convention
 
+- First, define the `Schema` by extending the LangChain's `BaseModel`. Each field is annotated with`title`, `description`, and `default` value. Make sure the annotations are descriptive so that LLM can understand what they do.
+
+- Next, create a class that extends LangChain's `BaseTool`. Implement the `_run` method which takes the arguments as specified in the schema. Return a dictionary of `citation` and `result` appropriately.
+
+- Once you've created the tool, you can import and add the tool in `run.py`.
+
 Here's an example of how to implement a DuckDuckGo Search Links tool:
 
 ```python
@@ -49,14 +55,6 @@ class DDGSearchLinksTool(BaseTool):
     def _arun(self, query: str, limit: int = 20):
         raise NotImplementedError("custom_search does not support async")
 ```
-
-First, define the `Schema` by extending the LangChain's `BaseModel`. Each field is annotated with
-
-`title`, `description`, and `default` value. Make sure the annotations are descriptive so that LLM can understand what they do.
-
-Next, create a class that extends LangChain's `BaseTool`. Implement the `_run` method which takes the arguments as specified in the schema. Return a dictionary of `citation` and `result` appropriately.
-
-Once you've created the tool, you can import and add the tool in `run.py`.
 
 ## 🛠️ Building Your Own Tools
 
