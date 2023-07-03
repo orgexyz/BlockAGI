@@ -23,7 +23,7 @@
 
 ## 🔎 Quick Preview
 
-![blockagi-preview](https://github.com/blockpipe/BlockAGI/assets/891585/b7cc6b0c-0462-4dfc-89e8-94ba2a8459bc)
+![blockagi-preview](https://github.com/blockpipe/BlockAGI/assets/891585/e13eff02-8ff4-4cee-b169-b2fa0be50b4b)
 
 ## 🛠️ Tech Stack
 
