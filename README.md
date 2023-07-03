@@ -40,6 +40,8 @@ Contributions, feedback, and suggestions are highly encouraged and appreciated! 
 - Submit issues ([GitHub Issues](https://github.com/blockpipe/BlockAGI/issues)) to report bugs, suggest new features, or ask questions.
 - Join our [Discord](https://discord.gg/K3TWumAtZV) community and share your experiences, ideas, and improvements. We believe that collaborative development is essential for the growth of BlockAGI.
 
+For BlockAGI code structure and contribution ideas, see [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## License
 
 BlockAGI is open-source software licensed under the Apache License 2.0. This license allows use, modification, and distribution of the software. For complete details, please see the [LICENSE](LICENSE) and [NOTICE](NOTICE) files in this repository.
