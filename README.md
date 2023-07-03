@@ -21,6 +21,10 @@
 - **🔧 Simplified Setup**: BlockAGI does not require file reading/writing, so there's no need for Docker/sandboxing. This makes the setup process simpler and more straightforward.
 - **📦 No External Datastore**: BlockAGI does not require an external vector datastore to work, reducing the complexity and resource requirements.
 
+## 🔎 Quick Preview
+
+![blockagi-preview](https://github.com/blockpipe/BlockAGI/assets/891585/b7cc6b0c-0462-4dfc-89e8-94ba2a8459bc)
+
 ## 🛠️ Tech Stack
 
 - Backend: [Python](https://www.python.org/downloads/) and [LangChain](https://python.langchain.com/)
