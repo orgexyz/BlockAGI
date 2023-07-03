@@ -1,7 +1,10 @@
+import os
 from blockagi.chains import BlockAGIChain
 from blockagi.schema import Findings
 from blockagi.tools import DDGSearchAnswerTool, DDGSearchLinksTool, VisitWebTool
 from langchain.chat_models import ChatOpenAI
+
+from blockagi.tools.google import GoogleSearchLinksTool
 
 
 def run_blockagi(
@@ -14,11 +17,17 @@ def run_blockagi(
     llm_callback,
     iteration_count,
 ):
-    tools = [
-        DDGSearchAnswerTool(),
-        DDGSearchLinksTool(resource_pool),
-        VisitWebTool(resource_pool),
-    ]
+    tools = []
+    if os.getenv("GOOGLE_API_KEY") and os.getenv("GOOGLE_CSE_ID"):
+        tools.append(GoogleSearchLinksTool(resource_pool))
+
+    tools.extend(
+        [
+            DDGSearchAnswerTool(),
+            DDGSearchLinksTool(resource_pool),
+            VisitWebTool(resource_pool),
+        ]
+    )
 
     blockagi_callback.on_log_message(
         f"Using {len(tools)} tools:\n"
@@ -40,7 +49,7 @@ def run_blockagi(
         "findings": Findings(
             narrative="Nothing",
             remark="",
-            generated_objectives=[]
+            generated_objectives=[],
         ),
     }
 
