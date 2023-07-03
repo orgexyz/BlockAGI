@@ -3,7 +3,7 @@ from typing import List, Dict, Any
 from langchain.chat_models.base import BaseChatModel
 from langchain.tools.base import BaseTool
 from langchain.schema import HumanMessage, SystemMessage
-from blockagi.chains.base import CustomCallbackChain
+from blockagi.chains.base import CustomCallbackLLMChain
 from blockagi.utils import (
     to_json_str,
     format_tools,
@@ -14,7 +14,7 @@ from blockagi.utils import (
 from blockagi.schema import BaseResourcePool, Objective, Findings, ResearchTask
 
 
-class PlanChain(CustomCallbackChain):
+class PlanChain(CustomCallbackLLMChain):
     agent_role: str = "a Research Assistant"
     llm: BaseChatModel
     resource_pool: BaseResourcePool
@@ -85,7 +85,7 @@ class PlanChain(CustomCallbackChain):
             ),
         ]
 
-        response = self.llm(messages)
+        response = self.retry_llm(messages)
 
         research_tasks = [
             ResearchTask(

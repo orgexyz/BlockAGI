@@ -5,18 +5,17 @@ from langchain.callbacks.base import BaseCallbackHandler
 from langchain.tools.base import BaseTool
 
 from blockagi.schema import BaseResourcePool
-from blockagi.chains.base import CustomCallbackChain
+from blockagi.chains.base import CustomCallbackLLMChain, CustomCallbackChain
 from blockagi.chains.plan import PlanChain
 from blockagi.chains.research import ResearchChain
 from blockagi.chains.narrate import NarrateChain
 from blockagi.chains.evaluate import EvaluateChain
 
 
-class BlockAGIChain(CustomCallbackChain):
+class BlockAGIChain(CustomCallbackLLMChain):
     agent_role: str = None
     iteration_count: int
     chains: List[CustomCallbackChain] = []
-    llm: BaseChatModel
     resource_pool: BaseResourcePool
     tools: List[BaseTool] = []
     callbacks: Optional[List[BaseCallbackHandler]] = None

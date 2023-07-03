@@ -3,15 +3,14 @@ from typing import List, Dict, Any
 from langchain.chat_models.base import BaseChatModel
 from langchain.tools.base import BaseTool
 from langchain.schema import HumanMessage, SystemMessage
-from blockagi.chains.base import CustomCallbackChain
+from blockagi.chains.base import CustomCallbackLLMChain
 from blockagi.utils import to_json_str, format_objectives
 
 from blockagi.schema import Objective, Findings, Narrative
 
 
-class EvaluateChain(CustomCallbackChain):
+class EvaluateChain(CustomCallbackLLMChain):
     agent_role: str = "a Research Assistant"
-    llm: BaseChatModel
     tools: List[BaseTool]
 
     @property
@@ -93,7 +92,7 @@ class EvaluateChain(CustomCallbackChain):
             ),
         ]
 
-        response = self.llm(messages)
+        response = self.retry_llm(messages)
 
         result = json.loads(response.content)
 

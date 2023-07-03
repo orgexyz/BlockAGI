@@ -1,6 +1,8 @@
+import time
 from typing import Dict, Any
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chains.base import Chain
+from langchain.chat_models.base import BaseChatModel
 
 
 # HACK: LangChain doesn't support custom handlers yet, so we have to use this workaround
@@ -45,3 +47,18 @@ class CustomCallbackChain(Chain):
         for callback in self.callbacks:
             if hasattr(callback, "on_log_message"):
                 getattr(callback, "on_log_message")(message)
+
+
+class CustomCallbackLLMChain(CustomCallbackChain):
+    llm: BaseChatModel
+
+    def retry_llm(self, messages, retry_count=5):
+        sleep_duration = 0.5
+        for _idx in range(retry_count - 1):
+            try:
+                return self.llm(messages)
+            except Exception as e:
+                self.fire_log(f"LLM failed with error: {e}; Retrying")
+                time.sleep(sleep_duration)
+            sleep_duration *= 2
+        return self.llm(messages)

@@ -2,15 +2,14 @@ from typing import List, Dict, Any
 from langchain.chat_models.base import BaseChatModel
 from langchain.tools.base import BaseTool
 from langchain.schema import HumanMessage, SystemMessage
-from blockagi.chains.base import CustomCallbackChain
+from blockagi.chains.base import CustomCallbackLLMChain
 from blockagi.utils import to_json_str, format_objectives
 
 from blockagi.schema import Objective, Findings, ResearchResult, Narrative
 
 
-class NarrateChain(CustomCallbackChain):
+class NarrateChain(CustomCallbackLLMChain):
     agent_role: str = "a Research Assistant"
-    llm: BaseChatModel
     tools: List[BaseTool]
 
     @property
@@ -121,7 +120,7 @@ class NarrateChain(CustomCallbackChain):
                 "## 📚 Capabilities of BlockAGI\n"
                 "Users can interact with BlockAGI through self-hosing the software [^2^].\n\n"
                 "[^1^]: [BlockAGI Github](https://github.com/blockpipe/blockagi)\n"
-                "[^2^]: Research Result: WebSearch \"BlockAGI\"\n"
+                '[^2^]: Research Result: WebSearch "BlockAGI"\n'
                 "```"
             ),
             HumanMessage(
@@ -145,6 +144,6 @@ class NarrateChain(CustomCallbackChain):
             ),
         ]
 
-        response = self.llm(messages)
+        response = self.retry_llm(messages)
 
         return response.content
