@@ -82,7 +82,7 @@ function ObjectivesTab() {
         <div className="flex items-center">
           Objectives
           <span className="inline-block ml-4 px-2 leading-6 rounded bg-fg-1 text-ac-1 font-code font-semibold text-[12px]">
-            {generated_objectives.length} intermediate
+            {generated_objectives.length} generated
           </span>
         </div>
       }
