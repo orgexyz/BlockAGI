@@ -40,7 +40,7 @@ xity and resource requirements.
 
 We currently don't take any monetary donations! However, every issue filed and PR are extremely important to us. Here is the roster of contributors and supporters of the project.
 
-<a href="https://blockpipe.io"><img width="200" alt="blockpipe" src="https://github.com/blockpipe/BlockAGI/assets/891585/b1a9b753-5282-4697-a5de-446c78686f08"></a>
+<a href="https://blockpipe.io"><img width="200" alt="blockpipe" src="https://github.com/blockpipe/BlockAGI/assets/891585/c595fd73-4a7e-4401-8312-1d7ea79b1bf4"></a>
 
 <br />
 
