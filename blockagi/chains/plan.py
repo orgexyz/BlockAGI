@@ -86,7 +86,7 @@ class PlanChain(CustomCallbackLLMChain):
                 "- Prioritize finding more about topics with low expertise.\n"
                 "- When your expertise is low, consider finding more resource and gather generic information.\n"
                 "- When your expertise is high, consider visiting specific resources over finding generic answer.\n"
-                "- When \"No resources available\", do not visit any link.\n"
+                '- When "No resources available", do not visit any link.\n'
                 "\n"
                 "Respond using ONLY the format specified above:"
             ),

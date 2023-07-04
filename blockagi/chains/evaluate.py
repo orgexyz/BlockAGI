@@ -42,7 +42,7 @@ class EvaluateChain(CustomCallbackLLMChain):
                         topic="additional objective that helps achieve the user objectives",
                         expertise="a new float value in [0, 1] range indicating the expertise of this objective",
                     ),
-                    "... include all generated objectives"
+                    "... include all generated objectives",
                 ],
                 "remark": "a note to the next iteration of BlockAGI to help it improve",
             },

@@ -22,9 +22,7 @@ from blockagi.run import run_blockagi
 app = FastAPI()
 
 
-@app.get(
-    "/",
-)
+@app.get("/")
 def get_index():
     return FileResponse("dist/index.html")
 

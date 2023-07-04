@@ -35,8 +35,8 @@ class ResearchChain(CustomCallbackChain):
                 task_result = tool.run(task.args)
                 research_results.append(
                     ResearchResult(
-                        result=task_result.get('result', None),
-                        citation=task_result.get('citation', None),
+                        result=task_result.get("result", None),
+                        citation=task_result.get("citation", None),
                         **asdict(task),
                     )
                 )

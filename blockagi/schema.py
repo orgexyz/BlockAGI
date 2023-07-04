@@ -48,7 +48,9 @@ class BaseResourcePool(ABC):
         pass
 
     @abstractmethod
-    def add(self, url: str, description: Optional[str] = None, content: Optional[str] = None) -> None:
+    def add(
+        self, url: str, description: Optional[str] = None, content: Optional[str] = None
+    ) -> None:
         pass
 
     @abstractmethod

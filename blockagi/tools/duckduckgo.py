@@ -20,10 +20,7 @@ class SearchAnswerSchema(BaseModel):
 def DDGSearchAnswerTool():
     def searchAnswerDDG(query: str):
         result = DuckDuckGoSearchRun().run(query)
-        return {
-            "citation": f"DuckDuckGo Search Answer: {query}",
-            "result": result
-        }
+        return {"citation": f"DuckDuckGo Search Answer: {query}", "result": result}
 
     return Tool.from_function(
         name="DuckDuckGoSearchAnswer",
@@ -59,10 +56,12 @@ class DDGSearchLinksTool(BaseTool):
         ddg = DDGS()
         results = list(islice(ddg.text(query), limit))
         for result in results:
-            self.resource_pool.add(url=result["href"], description=result["title"], content=None)
+            self.resource_pool.add(
+                url=result["href"], description=result["title"], content=None
+            )
         return {
             "citation": f"DuckDuckGo Search Links: {query}",
-            "result": json.dumps(results, indent=2)
+            "result": json.dumps(results, indent=2),
         }
 
     def _arun(self, query: str, limit: int = 20):
