@@ -6,12 +6,22 @@
 **BlockAGI** is an open-source research agent built with Python3, utilizing the capabilities of [LangChain](https://github.com/hwchase17/langchain) and [OpenAI](https://openai.com/). BlockAGI conducts iterative, domain-specific research, primarily focused on cryptocurrency but customizable to other domains. It outputs detailed narrative reports to showcase its findings. The progress of the AI agent's work is presented interactively through a user-friendly web interface, allowing users to watch the progress in real-time.
 
 > 🤖 Initially designed to answer crypto research topics (hence the "Block" in BlockAGI), it has proven useful for a wide variety of other use cases.
+xity and resource requirements.
+
+## 🔎 Quick Preview
+
+![blockagi-preview](https://github.com/blockpipe/BlockAGI/assets/891585/e13eff02-8ff4-4cee-b169-b2fa0be50b4b)
 
 ## 🎯 Features
 
-- **💯 100% Hackable**: The code is based on LangChain and comes with a WebUI that's basically just one [`tsx`](/ui/app/page.tsx) file.
-- **🛠️ Versatile**: BlockAGI can help write professional research pieces using live online or user-proprietary information, search and gather information using tools provided on its own, produce and refine the research piece using new materials found without human supervision, and evaluate itself, generating additional intermediate research topics to fulfill the user's research objectives.
-- **🚀 Inspired by the Best**: BlockAGI leans on multiple predecessors like [BabyAGI](https://github.com/yoheinakajima/babyagi) and [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT) to create a self-improving agent with a specific goal of producing human-readable research pieces with the proper citations.
+- **📚 Automated Research**: Just provide the topics, and let BlockAGI do the research.
+- **🔍 Comprehensive**: BlockAGI can search, gather, refine, and evaluate information on its own.
+- **🔄 Live Data**: BlockAGI can access real-time data from the internet or your own database.
+- **🌐 WebUI**: Equipped with user-friendly interface, all in one [`tsx`](/ui/app/page.tsx) file.
+- **💯 100% Hackable**: The code, based on LangChain, is concise and easy to modify to suit your needs.
+- **🔐 Privacy Focused**: Your report stays with you and the LLM provider you trust.
+- **🚀 Inspired by the Best**: BlockAGI builds upon the work of [BabyAGI](https://github.com/yoheinakajima/babyagi) and [AutoGPT](https://github.com/Significant-Gravitas/Auto-GPT) to create a self-improving agent.
+
 
 ## 💡 Differences from AutoGPT
 
@@ -19,11 +29,7 @@
 - **🖥️ Interactive Web UI**: BlockAGI features a Web UI that displays the agent's decision-making process, execution progress, and the latest research results. This allows for a more interactive and user-friendly experience.
 - **🎯 Focused Functionality**: BlockAGI is designed with a single goal in mind - to assist users in their research topics. It's not about doing everything, but doing one thing really well.
 - **🔧 Simplified Setup**: BlockAGI does not require file reading/writing, so there's no need for Docker/sandboxing. This makes the setup process simpler and more straightforward.
-- **📦 No External Datastore**: BlockAGI does not require an external vector datastore to work, reducing the complexity and resource requirements.
-
-## 🔎 Quick Preview
-
-![blockagi-preview](https://github.com/blockpipe/BlockAGI/assets/891585/e13eff02-8ff4-4cee-b169-b2fa0be50b4b)
+- **📦 No External Datastore**: BlockAGI does not require an external vector datastore to work, reducing the comple
 
 ## 🛠️ Tech Stack
 
