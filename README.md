@@ -30,9 +30,9 @@
 - Backend: [Python](https://www.python.org/downloads/) and [LangChain](https://python.langchain.com/)
 - Frontend: [Next.js](https://nextjs.org/) and [Tailwind](https://tailwindcss.com/)
 
-## 🤝 Sponsor and Contributors
+## 🤝 Sponsors and Contributors
 
-We currently don't take any monetary donations! However, every issue filed and PR are extremely important to us. Here is the roster of contributors and supporter of the project.
+We currently don't take any monetary donations! However, every issue filed and PR are extremely important to us. Here is the roster of contributors and supporters of the project.
 
 <a href="https://blockpipe.io"><img width="200" alt="blockpipe" src="https://github.com/blockpipe/BlockAGI/assets/891585/b1a9b753-5282-4697-a5de-446c78686f08"></a>
 
