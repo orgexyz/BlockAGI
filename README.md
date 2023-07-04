@@ -1,7 +1,7 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/blockpipe/blockagi?style=social)](https://github.com/blockpipe/blockagi/stargazers)
 [![Twitter Follow](https://img.shields.io/twitter/follow/blockpipe?style=social)](https://twitter.com/blockpipe)
 
-<img width="600" alt="banner" src="https://github.com/blockpipe/BlockAGI/assets/891585/adb1050d-e22e-416b-8e4b-31d61707f652">
+<img width="600" alt="banner" src="https://github.com/blockpipe/BlockAGI/assets/891585/4ea315e2-b496-4cfb-a81a-560a1763bf15">
 
 **BlockAGI** is an open-source research agent built with Python3, utilizing the capabilities of [LangChain](https://github.com/hwchase17/langchain) and [OpenAI](https://openai.com/). BlockAGI conducts iterative, domain-specific research, primarily focused on cryptocurrency but customizable to other domains. It outputs detailed narrative reports to showcase its findings. The progress of the AI agent's work is presented interactively through a user-friendly web interface, allowing users to watch the progress in real-time.
 
@@ -10,7 +10,7 @@ xity and resource requirements.
 
 ## 🔎 Quick Preview
 
-![blockagi-preview](https://github.com/blockpipe/BlockAGI/assets/891585/e13eff02-8ff4-4cee-b169-b2fa0be50b4b)
+![blockagi-preview-2](https://github.com/blockpipe/BlockAGI/assets/891585/bfd05611-9017-4d1f-844c-e6feae737973)
 
 ## 🎯 Features
 
