@@ -53,5 +53,5 @@ class GoogleSearchLinksTool(BaseTool):
             ),
         }
 
-    def _arun(self, query: str, limit: int = 20):
+    def _arun(self, query: str, limit: int = 10):
         raise NotImplementedError("custom_search does not support async")

@@ -1,10 +1,13 @@
 import os
 from blockagi.chains import BlockAGIChain
 from blockagi.schema import Findings
-from blockagi.tools import DDGSearchAnswerTool, DDGSearchLinksTool, VisitWebTool
+from blockagi.tools import (
+    DDGSearchAnswerTool,
+    DDGSearchLinksTool,
+    GoogleSearchLinksTool,
+    VisitWebTool,
+)
 from langchain.chat_models import ChatOpenAI
-
-from blockagi.tools.google import GoogleSearchLinksTool
 
 
 def run_blockagi(
