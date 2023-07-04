@@ -93,6 +93,10 @@ Contributions, feedback, and suggestions are highly encouraged and appreciated! 
 
 For BlockAGI code structure and contribution ideas, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## 📖 Citation
+
+If you wish to cite BlockAGI in your research, we encourage the use of [CITATION.cff](CITATION.cff) provided for appropriate citation formatting. For more details on the citation file format, please visit the [Citation File Format website](https://citation-file-format.github.io).
+
 ## 📜 License
 
 BlockAGI is open-source software licensed under the Apache License 2.0. This license allows use, modification, and distribution of the software. For complete details, please see the [LICENSE](LICENSE) and [NOTICE](NOTICE) files in this repository.
