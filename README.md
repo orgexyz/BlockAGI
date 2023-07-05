@@ -1,5 +1,5 @@
 [![GitHub Repo stars](https://img.shields.io/github/stars/blockpipe/blockagi?style=social)](https://github.com/blockpipe/blockagi/stargazers)
-[![Twitter Follow](https://img.shields.io/twitter/follow/blockpipe?style=social)](https://twitter.com/blockpipe)
+[![Twitter Follow](https://img.shields.io/twitter/follow/BlockAGI?style=social)](https://twitter.com/BlockAGI)
 
 <img width="600" alt="banner" src="https://github.com/blockpipe/BlockAGI/assets/891585/4ea315e2-b496-4cfb-a81a-560a1763bf15">
 
