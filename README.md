@@ -43,7 +43,7 @@ We currently don't take any monetary donations! However, every issue filed and P
 
 <br />
 
-<a href="https://github.com/smiled0g"><img src="https://avatars.githubusercontent.com/smiled0g?v=4" width="50px" alt="smiled0g" /></a>&nbsp;&nbsp;<a href="https://github.com/sorawit"><img src="https://avatars.githubusercontent.com/sorawit?v=4" width="50px" alt="sorawit" /></a>&nbsp;&nbsp;
+<a href="https://github.com/smiled0g"><img src="https://avatars.githubusercontent.com/smiled0g?v=4" width="50px" alt="smiled0g" /></a>&nbsp;&nbsp;<a href="https://github.com/sorawit"><img src="https://avatars.githubusercontent.com/sorawit?v=4" width="50px" alt="sorawit" /></a>&nbsp;&nbsp;<a href="https://github.com/endolith"><img src="https://avatars.githubusercontent.com/endolith?v=4" width="50px" alt="endolith" /></a>&nbsp;&nbsp;
 
 ## 📚 Documentation
 
