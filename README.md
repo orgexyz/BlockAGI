@@ -6,7 +6,6 @@
 **BlockAGI** is an open-source research agent built with Python3, utilizing the capabilities of [LangChain](https://github.com/hwchase17/langchain) and [OpenAI](https://openai.com/). BlockAGI conducts iterative, domain-specific research, primarily focused on cryptocurrency but customizable to other domains. It outputs detailed narrative reports to showcase its findings. The progress of the AI agent's work is presented interactively through a user-friendly web interface, allowing users to watch the progress in real-time.
 
 > 🤖 Initially designed to answer crypto research topics (hence the "Block" in BlockAGI), it has proven useful for a wide variety of other use cases.
-xity and resource requirements.
 
 ## 🔎 Quick Preview
 
@@ -29,7 +28,7 @@ xity and resource requirements.
 - **🖥️ Interactive Web UI**: BlockAGI features a Web UI that displays the agent's decision-making process, execution progress, and the latest research results. This allows for a more interactive and user-friendly experience.
 - **🎯 Focused Functionality**: BlockAGI is designed with a single goal in mind - to assist users in their research topics. It's not about doing everything, but doing one thing really well.
 - **🔧 Simplified Setup**: BlockAGI does not require file reading/writing, so there's no need for Docker/sandboxing. This makes the setup process simpler and more straightforward.
-- **📦 No External Datastore**: BlockAGI does not require an external vector datastore to work, reducing the comple
+- **📦 No External Datastore**: BlockAGI does not require an external vector datastore to work, reducing the complexity and resource requirements.
 
 ## 🛠️ Tech Stack
 
