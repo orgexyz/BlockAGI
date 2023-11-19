@@ -95,7 +95,7 @@ class EvaluateChain(CustomCallbackLLMChain):
 
         response = self.retry_llm(messages)
 
-        result = json.loads(response.content)
+        result = json.loads(response.content.strip("```json"))
 
         updated_findings = Findings(
             generated_objectives=[
