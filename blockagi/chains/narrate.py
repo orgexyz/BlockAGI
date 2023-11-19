@@ -148,4 +148,4 @@ class NarrateChain(CustomCallbackLLMChain):
 
         response = self.retry_llm(messages)
 
-        return response.content
+        return response.content.strip("```json")

@@ -100,7 +100,7 @@ class PlanChain(CustomCallbackLLMChain):
                 args=task["args"],
                 reasoning=task["reasoning"],
             )
-            for task in json.loads(response.content)
+            for task in json.loads(response.content.strip("```json"))
         ]
 
         return {"research_tasks": research_tasks}
